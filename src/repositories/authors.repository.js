@@ -3,7 +3,9 @@ const { author: AuthorModel } = require('../models/index');
 module.exports = {
     get: (filter = {}, skip = 0, limit = 10) => AuthorModel.find(filter, { __v: false }).skip(skip).limit(limit).lean(),
 
-    find: (filter = {}) => AuthorModel.findOne(filter, { __v: false }).lean(),
+    findOne: (filter = {}) => AuthorModel.findOne(filter, { __v: false }).lean(),
+
+    findById: (id) => AuthorModel.findOne({ _id: id }, { __v: false }).lean(),
 
     create: (data) => {
         const author = new AuthorModel(data);
@@ -12,7 +14,12 @@ module.exports = {
 
     update: (data, filter) => AuthorModel.findOneAndUpdate(filter, data),
 
-    findById: (id) => AuthorModel.findOne({ _id: id }, { __v: false }).lean(),
+    removeOne: async (filter) => {
+        const author = await AuthorModel.findOne(filter, { __v: false }).lean();
+        await AuthorModel.deleteOne(filter);
+
+        return author;
+    },
 
     removeById: async (id) => {
         const author = await AuthorModel.findOne({ _id: id }, { __v: false }).lean();

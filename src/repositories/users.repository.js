@@ -1,10 +1,12 @@
 const { user: UserModel } = require('../models/index');
-const hashUtil = require('../utils/hash');
+const hashUtil = require('../utils/hash.util');
 
 module.exports = {
     get: (filter = {}, skip = 0, limit = 10) => UserModel.find(filter, { password: false, __v: false }).skip(skip).limit(limit).lean(),
 
-    find: (filter = {}) => UserModel.findOne(filter, { password: false, __v: false }).lean(),
+    findOne: (filter = {}) => UserModel.findOne(filter, { password: false, __v: false }).lean(),
+
+    findById: (id) => UserModel.findOne({ _id: id }, { password: false, __v: false }).lean(),
 
     create: async (data) => {
         if(data.password){
@@ -23,7 +25,12 @@ module.exports = {
         return UserModel.findOneAndUpdate(filter, data)
     },
 
-    findById: (id) => UserModel.findOne({ _id: id }, { password: false, __v: false }).lean(),
+    removeOne: async (filter) => {
+        const user = await UserModel.findOne(filter, { __v: false }).lean();
+        await UserModel.deleteOne(filter);
+
+        return user;
+    },
 
     removeById: async (id) => {
         const user = await UserModel.findOne({ _id: id }, { password: false, __v: false }).lean();

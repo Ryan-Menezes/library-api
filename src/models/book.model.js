@@ -12,12 +12,16 @@ const BookSchema = new Schema({
         required: true,
         unique: true,
     },
+    visible: {
+        type: Boolean,
+        default: true,
+    },
     volume: {
-        type: String,
+        type: Number,
         required: true,
     },
     edition: {
-        type: String,
+        type: Number,
         required: true,
     },
     release_date: {

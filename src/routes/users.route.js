@@ -1,5 +1,5 @@
 const { users: usersHandler } = require('../handlers/index');
-const { users: userSchema } = require('../schemas/index');
+const { users: usersSchema } = require('../schemas/index');
 
 const endpoint = '/users';
 
@@ -27,7 +27,7 @@ module.exports = [
         options: {
             cors: true,
             validate: {
-                payload: userSchema.payload
+                payload: usersSchema.payload
             },
         }
     },
@@ -38,7 +38,7 @@ module.exports = [
         options: {
             cors: true,
             validate: {
-                payload: userSchema.payload
+                payload: usersSchema.payload
             },
         }
     },

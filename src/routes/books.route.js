@@ -1,13 +1,13 @@
-const { authors: authorsHandler } = require('../handlers/index');
-const { authors: authorsSchema } = require('../schemas/index');
+const { books: booksHandler } = require('../handlers/index');
+const { books: booksSchema } = require('../schemas/index');
 
-const endpoint = '/authors'
+const endpoint = '/books'
 
 module.exports = [
     {
         method: 'GET',
         path: endpoint,
-        handler: authorsHandler.index,
+        handler: booksHandler.index,
         options: {
             cors: true,
         },
@@ -15,7 +15,7 @@ module.exports = [
     {
         method: 'GET',
         path: `${endpoint}/{slug}`,
-        handler: authorsHandler.show,
+        handler: booksHandler.show,
         options: {
             cors: true,
         },
@@ -23,29 +23,29 @@ module.exports = [
     {
         method: 'POST',
         path: `${endpoint}`,
-        handler: authorsHandler.create,
+        handler: booksHandler.create,
         options: {
             cors: true,
             validate: {
-                payload: authorsSchema.payload
+                payload: booksSchema.payload
             },
         }
     },
     {
         method: 'PUT',
         path: `${endpoint}/{slug}`,
-        handler: authorsHandler.update,
+        handler: booksHandler.update,
         options: {
             cors: true,
             validate: {
-                payload: authorsSchema.payload
+                payload: booksSchema.payload
             },
         }
     },
     {
         method: 'DELETE',
         path: `${endpoint}/{slug}`,
-        handler: authorsHandler.delete,
+        handler: booksHandler.delete,
         options: {
             cors: true,
         }

@@ -1,4 +1,5 @@
 const Hapi = require('@hapi/hapi');
+const morgan = require('morgan');
 
 const routes = require('./routes/index');
 const { server: serverConfig } = require('./config/index');
@@ -8,7 +9,7 @@ const server = Hapi.server({
     host: serverConfig.host,
 });
 
-server.route([...routes.users, ...routes.authors]);
+server.route([...routes.users, ...routes.authors, ...routes.categories, ...routes.books]);
 
 console.log('Server running on %s', server.info.uri);
 

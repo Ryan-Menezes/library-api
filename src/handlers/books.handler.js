@@ -1,17 +1,17 @@
 const boom = require('@hapi/boom');
 
-const { users: usersReposiory } = require('../repositories/index');
+const { books: booksReposiory } = require('../repositories/index');
 const responseUtil = require('../utils/response.util');
 
-const type = 'users';
+const type = 'books';
 
 module.exports = {
     index: async (req, h) => {
         try {
             const { page = 1, limit = 10, ...filter } = req.query;
-            const users = await usersReposiory.get(filter, page - 1, limit);
+            const books = await booksReposiory.get(filter, page - 1, limit);
 
-            return h.response(responseUtil.parse(req, type, users)).code(200);
+            return h.response(responseUtil.parse(req, type, books)).code(200);
         } catch (error) {
             throw boom.badImplementation(error);
         }
@@ -19,14 +19,14 @@ module.exports = {
 
     show: async (req, h) => {
         try {
-            const { id } = req.params;
-            const user = await usersReposiory.findById(id);
+            const { slug } = req.params;
+            const book = await booksReposiory.findOne({ slug });
 
-            if (!user) {
+            if (!book) {
                 throw new Error('Not Found');
             }
 
-            return h.response(responseUtil.parse(req, type, user)).code(200);
+            return h.response(responseUtil.parse(req, type, book)).code(200);
         } catch (error) {
             switch (error.message) {
                 case 'Not Found':
@@ -40,9 +40,9 @@ module.exports = {
     create: async (req, h) => {
         try {
             const data = req.payload;
-            const user = await usersReposiory.create(data);
+            const book = await booksReposiory.create(data);
 
-            return h.response(responseUtil.parse(req, type, user)).code(201);
+            return h.response(responseUtil.parse(req, type, book)).code(201);
         } catch (error) {
             throw boom.badImplementation(error);
         }
@@ -50,15 +50,15 @@ module.exports = {
 
     update: async (req, h) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
             const data = req.payload;
-            const user = await usersReposiory.update(data, { _id: id });
+            const book = await booksReposiory.update(data, { slug });
 
-            if (!user) {
+            if (!book) {
                 throw new Error('Not Found');
             }
 
-            return h.response(responseUtil.parse(req, type, user)).code(200);
+            return h.response(responseUtil.parse(req, type, book)).code(200);
         } catch (error) {
             switch (error.message) {
                 case 'Not Found':
@@ -71,14 +71,14 @@ module.exports = {
 
     delete: async (req, h) => {
         try {
-            const { id } = req.params;
-            const user = await usersReposiory.removeById(id);
+            const { slug } = req.params;
+            const book = await booksReposiory.removeOne({ slug });
 
-            if (!user) {
+            if (!book) {
                 throw new Error('Not Found');
             }
 
-            return h.response(responseUtil.parse(req, type, user)).code(200);
+            return h.response(responseUtil.parse(req, type, book)).code(200);
         } catch (error) {
             switch (error.message) {
                 case 'Not Found':

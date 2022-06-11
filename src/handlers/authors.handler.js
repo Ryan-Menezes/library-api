@@ -1,7 +1,7 @@
 const boom = require('@hapi/boom');
 
 const { authors: authorsReposiory } = require('../repositories/index');
-const responseUtil = require('../utils/response');
+const responseUtil = require('../utils/response.util');
 
 const type = 'authors';
 
@@ -19,10 +19,10 @@ module.exports = {
 
     show: async (req, h) => {
         try {
-            const { id } = req.params;
-            const author = await authorsReposiory.findById(id);
+            const { slug } = req.params;
+            const author = await authorsReposiory.findOne({ slug });
 
-            if (!author){
+            if (!author) {
                 throw new Error('Not Found');
             }
 
@@ -50,23 +50,31 @@ module.exports = {
 
     update: async (req, h) => {
         try {
-            const { id } = req.params;
+            const { slug } = req.params;
             const data = req.payload;
-            const author = await authorsReposiory.update(data, { _id: id });
+            const author = await authorsReposiory.update(data, { slug });
+
+            if (!author) {
+                throw new Error('Not Found');
+            }
 
             return h.response(responseUtil.parse(req, type, author)).code(200);
         } catch (error) {
-            throw boom.badImplementation(error);
+            switch (error.message) {
+                case 'Not Found':
+                    throw boom.notFound(error.message);
+                default:
+                    throw boom.badImplementation(error);
+            }
         }
     },
 
     delete: async (req, h) => {
         try {
-            const { id } = req.params;
-            console.log(id);
-            const author = await authorsReposiory.removeById(id);
+            const { slug } = req.params;
+            const author = await authorsReposiory.removeOne({ slug });
 
-            if (!author){
+            if (!author) {
                 throw new Error('Not Found');
             }
 
