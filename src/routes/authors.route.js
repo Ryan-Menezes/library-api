@@ -29,7 +29,14 @@ module.exports = [
             validate: {
                 payload: authorsSchema.payload
             },
-        }
+            payload: {
+                parse: true,
+                multipart: {
+                    output: 'stream'
+                },
+                maxBytes: 1000 * 1000 * 200, // 200 Mb
+            },
+        },
     },
     {
         method: 'PUT',
@@ -40,7 +47,14 @@ module.exports = [
             validate: {
                 payload: authorsSchema.payload
             },
-        }
+            payload: {
+                parse: true,
+                multipart: {
+                    output: 'stream'
+                },
+                maxBytes: 1000 * 1000 * 200, // 200 Mb
+            },
+        },
     },
     {
         method: 'DELETE',
@@ -48,6 +62,6 @@ module.exports = [
         handler: authorsHandler.delete,
         options: {
             cors: true,
-        }
+        },
     },
 ];

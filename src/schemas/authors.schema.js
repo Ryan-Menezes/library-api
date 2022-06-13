@@ -5,5 +5,6 @@ module.exports = {
         name: Joi.string().required(),
         slug: Joi.string().required(),
         description: Joi.string(),
+        avatar: Joi.any(),
     }),
 };

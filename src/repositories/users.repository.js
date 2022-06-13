@@ -2,11 +2,15 @@ const { user: UserModel } = require('../models/index');
 const hashUtil = require('../utils/hash.util');
 
 module.exports = {
+    type: 'users',
+
     get: (filter = {}, skip = 0, limit = 10) => UserModel.find(filter, { password: false, __v: false }).skip(skip).limit(limit).lean(),
 
     findOne: (filter = {}) => UserModel.findOne(filter, { password: false, __v: false }).lean(),
 
     findById: (id) => UserModel.findOne({ _id: id }, { password: false, __v: false }).lean(),
+
+    findUsernameAuth: (username) => UserModel.findOne({ username }, { __v: false }).lean(),
 
     create: async (data) => {
         if(data.password){

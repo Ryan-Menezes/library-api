@@ -1,26 +1,26 @@
-const boom = require('@hapi/boom');
-
-const { users: usersReposiory } = require('../repositories/index');
 const responseUtil = require('../utils/response.util');
+const errorUtil = require('../utils/error.util');
+const storageUtil = require('../utils/storage.util');
+const { users: usersRepository } = require('../repositories/index');
 
-const type = 'users';
+const type = usersRepository.type;
 
 module.exports = {
     index: async (req, h) => {
         try {
             const { page = 1, limit = 10, ...filter } = req.query;
-            const users = await usersReposiory.get(filter, page - 1, limit);
-
+            const users = await usersRepository.get(filter, page - 1, limit);
+            
             return h.response(responseUtil.parse(req, type, users)).code(200);
         } catch (error) {
-            throw boom.badImplementation(error);
+            errorUtil.parse(error);
         }
     },
 
     show: async (req, h) => {
         try {
             const { id } = req.params;
-            const user = await usersReposiory.findById(id);
+            const user = await usersRepository.findById(id);
 
             if (!user) {
                 throw new Error('Not Found');
@@ -28,23 +28,27 @@ module.exports = {
 
             return h.response(responseUtil.parse(req, type, user)).code(200);
         } catch (error) {
-            switch (error.message) {
-                case 'Not Found':
-                    throw boom.notFound(error.message);
-                default:
-                    throw boom.badImplementation(error);
-            }
+            errorUtil.parse(error);
         }
     },
 
     create: async (req, h) => {
         try {
             const data = req.payload;
-            const user = await usersReposiory.create(data);
+            
+            // Upload avatar file
+            if (data.avatar) {
+                const file_info = await storageUtil.upload(data.avatar);
+                data.avatar = file_info.filename;
+            }
+            
+            // Save data
+            const user = await usersRepository.create(data);
 
+            // Response data
             return h.response(responseUtil.parse(req, type, user)).code(201);
         } catch (error) {
-            throw boom.badImplementation(error);
+            errorUtil.parse(error);
         }
     },
 
@@ -52,40 +56,52 @@ module.exports = {
         try {
             const { id } = req.params;
             const data = req.payload;
-            const user = await usersReposiory.update(data, { _id: id });
+
+            // Upload new avatar file
+            if (data.avatar) {
+                const file_info = await storageUtil.upload(data.avatar);
+                data.avatar = file_info.filename;
+            }
+
+            // Save data and verify if exists
+            const user = await usersRepository.update(data, { _id: id });
 
             if (!user) {
                 throw new Error('Not Found');
             }
 
+            // Remove old avatar file
+            if (user.avatar) {
+                await storageUtil.remove(user.avatar);
+            }
+
+            // Response data
             return h.response(responseUtil.parse(req, type, user)).code(200);
         } catch (error) {
-            switch (error.message) {
-                case 'Not Found':
-                    throw boom.notFound(error.message);
-                default:
-                    throw boom.badImplementation(error);
-            }
+            errorUtil.parse(error);
         }
     },
 
     delete: async (req, h) => {
         try {
             const { id } = req.params;
-            const user = await usersReposiory.removeById(id);
+
+            // Remove data
+            const user = await usersRepository.removeById(id);
 
             if (!user) {
                 throw new Error('Not Found');
             }
 
+            // Remove avatar file
+            if (user.avatar) {
+                await storageUtil.remove(user.avatar);
+            }
+
+            // Response data
             return h.response(responseUtil.parse(req, type, user)).code(200);
         } catch (error) {
-            switch (error.message) {
-                case 'Not Found':
-                    throw boom.notFound(error.message);
-                default:
-                    throw boom.badImplementation(error);
-            }
+            errorUtil.parse(error);
         }
     },
 };

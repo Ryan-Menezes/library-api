@@ -1,26 +1,28 @@
-const boom = require('@hapi/boom');
-
-const { authors: authorsReposiory } = require('../repositories/index');
 const responseUtil = require('../utils/response.util');
+const errorUtil = require('../utils/error.util');
+const {
+    books: booksRepository,
+    authors: authorsRepository,
+} = require('../repositories/index');
 
-const type = 'authors';
+const type = authorsRepository.type;
 
 module.exports = {
     index: async (req, h) => {
         try {
             const { page = 1, limit = 10, ...filter } = req.query;
-            const authors = await authorsReposiory.get(filter, page - 1, limit);
+            const authors = await authorsRepository.get(filter, page - 1, limit);
 
             return h.response(responseUtil.parse(req, type, authors)).code(200);
         } catch (error) {
-            throw boom.badImplementation(error);
+            errorUtil.parse(error);
         }
     },
 
     show: async (req, h) => {
         try {
             const { slug } = req.params;
-            const author = await authorsReposiory.findOne({ slug });
+            const author = await authorsRepository.findOne({ slug });
 
             if (!author) {
                 throw new Error('Not Found');
@@ -28,23 +30,18 @@ module.exports = {
 
             return h.response(responseUtil.parse(req, type, author)).code(200);
         } catch (error) {
-            switch (error.message) {
-                case 'Not Found':
-                    throw boom.notFound(error.message);
-                default:
-                    throw boom.badImplementation(error);
-            }
+            errorUtil.parse(error);
         }
     },
 
     create: async (req, h) => {
         try {
             const data = req.payload;
-            const author = await authorsReposiory.create(data);
+            const author = await authorsRepository.create(data);
 
             return h.response(responseUtil.parse(req, type, author)).code(201);
         } catch (error) {
-            throw boom.badImplementation(error);
+            errorUtil.parse(error);
         }
     },
 
@@ -52,7 +49,7 @@ module.exports = {
         try {
             const { slug } = req.params;
             const data = req.payload;
-            const author = await authorsReposiory.update(data, { slug });
+            const author = await authorsRepository.update(data, { slug });
 
             if (!author) {
                 throw new Error('Not Found');
@@ -60,32 +57,24 @@ module.exports = {
 
             return h.response(responseUtil.parse(req, type, author)).code(200);
         } catch (error) {
-            switch (error.message) {
-                case 'Not Found':
-                    throw boom.notFound(error.message);
-                default:
-                    throw boom.badImplementation(error);
-            }
+            errorUtil.parse(error);
         }
     },
 
     delete: async (req, h) => {
         try {
             const { slug } = req.params;
-            const author = await authorsReposiory.removeOne({ slug });
+            const author = await authorsRepository.removeOne({ slug });
 
             if (!author) {
                 throw new Error('Not Found');
             }
 
+            await booksRepository.removeAuthors(author._id);
+
             return h.response(responseUtil.parse(req, type, author)).code(200);
         } catch (error) {
-            switch (error.message) {
-                case 'Not Found':
-                    throw boom.notFound(error.message);
-                default:
-                    throw boom.badImplementation(error);
-            }
+            errorUtil.parse(error);
         }
     },
 };

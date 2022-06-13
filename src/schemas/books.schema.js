@@ -10,5 +10,6 @@ module.exports = {
         release_date: Joi.date().required(),
         description: Joi.string(),
         details: Joi.string(),
+        poster: Joi.any(),
     }),
 };

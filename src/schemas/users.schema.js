@@ -6,5 +6,6 @@ module.exports = {
         last_name: Joi.string().required(),
         username: Joi.string().required(),
         password: Joi.string().required().min(6),
+        avatar: Joi.any(),
     }),
 };

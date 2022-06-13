@@ -29,7 +29,7 @@ module.exports = [
             validate: {
                 payload: categoriesSchema.payload
             },
-        }
+        },
     },
     {
         method: 'PUT',
@@ -40,7 +40,7 @@ module.exports = [
             validate: {
                 payload: categoriesSchema.payload
             },
-        }
+        },
     },
     {
         method: 'DELETE',
@@ -48,6 +48,6 @@ module.exports = [
         handler: categoriesHandler.delete,
         options: {
             cors: true,
-        }
+        },
     },
 ];

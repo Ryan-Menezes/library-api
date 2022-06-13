@@ -28,7 +28,7 @@ module.exports = {
                 links: {
                     self: `${url}${type}`,
                     next: `${url}${type}?${queryUrlNext}`,
-                    last: `${url}${type}?${queryUrlLast}`,
+                    last: page > 1 ? `${url}${type}?${queryUrlLast}` : undefined,
                 },
             };
         } else {
