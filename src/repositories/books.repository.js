@@ -44,7 +44,7 @@ module.exports = {
         },
     }),
 
-    removeCategories: (category_id) => BookModel.update({}, {
+    removeCategories: (category_id) => BookModel.updateMany({}, {
         $pull: {
             categories: category_id,
         },
@@ -62,7 +62,7 @@ module.exports = {
         },
     }),
 
-    removeAuthors: (author_id) => BookModel.update({}, {
+    removeAuthors: (author_id) => BookModel.updateMany({}, {
         $pull: {
             authors: author_id,
         },

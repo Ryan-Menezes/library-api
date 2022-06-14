@@ -33,12 +33,14 @@ module.exports = {
     },
 
     create: async (req, h) => {
+        let file_info = null;
+
         try {
             const data = req.payload;
             
             // Upload avatar file
             if (data.avatar) {
-                const file_info = await storageUtil.upload(data.avatar);
+                file_info = await storageUtil.upload(data.avatar);
                 data.avatar = file_info.filename;
             }
             
@@ -48,18 +50,24 @@ module.exports = {
             // Response data
             return h.response(responseUtil.parse(req, type, user)).code(201);
         } catch (error) {
+            if (file_info) {
+                await storageUtil.remove(file_info.filename);
+            }
+
             errorUtil.parse(error);
         }
     },
 
     update: async (req, h) => {
+        let file_info = null;
+
         try {
             const { id } = req.params;
             const data = req.payload;
 
             // Upload new avatar file
             if (data.avatar) {
-                const file_info = await storageUtil.upload(data.avatar);
+                file_info = await storageUtil.upload(data.avatar);
                 data.avatar = file_info.filename;
             }
 
@@ -78,6 +86,10 @@ module.exports = {
             // Response data
             return h.response(responseUtil.parse(req, type, user)).code(200);
         } catch (error) {
+            if (file_info) {
+                await storageUtil.remove(file_info.filename);
+            }
+
             errorUtil.parse(error);
         }
     },
