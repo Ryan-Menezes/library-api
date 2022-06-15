@@ -1,5 +1,7 @@
 const responseUtil = require('../utils/response.util');
 const errorUtil = require('../utils/error.util');
+const storageUtil = require('../utils/storage.util');
+const strUtil = require('../utils/str.util');
 const {
     books: booksRepository,
     categories: categoriesRepository,
@@ -38,28 +40,73 @@ module.exports = {
     },
 
     create: async (req, h) => {
+        let file_info = null;
+
         try {
             const data = req.payload;
+
+            // Slugify
+            data.slug = !data.slug ? strUtil.slugify(data.title) : strUtil.slugify(data.slug);
+            
+            // Upload poster file
+            if (data.poster) {
+                file_info = await storageUtil.upload(data.poster);
+                data.poster = file_info.filename;
+            }
+
+            // Save data
             const book = await booksRepository.create(data);
 
+            // Response data
             return h.response(responseUtil.parse(req, type, book)).code(201);
         } catch (error) {
+            if (file_info) {
+                await storageUtil.remove(file_info.filename);
+            }
+
             errorUtil.parse(error);
         }
     },
 
     update: async (req, h) => {
+        let file_info = null;
+
         try {
             const { slug } = req.params;
             const data = req.payload;
+
+            // Slugify
+            if (!data.slug) {
+                delete data.slug;
+            } else {
+                data.slug = strUtil.slugify(data.slug);
+            }    
+
+            // Upload new poster file
+            if (data.poster) {
+                file_info = await storageUtil.upload(data.poster);
+                data.poster = file_info.filename;
+            }
+
+            // Save data and verify if exists
             const book = await booksRepository.update(data, { slug });
 
             if (!book) {
                 throw new Error('Not Found');
             }
 
+            // Remove old poster file
+            if (data.poster && book.poster) {
+                await storageUtil.remove(book.poster);
+            }
+
+            // Response data
             return h.response(responseUtil.parse(req, type, book)).code(200);
         } catch (error) {
+            if (file_info) {
+                await storageUtil.remove(file_info.filename);
+            }
+
             errorUtil.parse(error);
         }
     },
@@ -67,12 +114,20 @@ module.exports = {
     delete: async (req, h) => {
         try {
             const { slug } = req.params;
+
+            // Remove data
             const book = await booksRepository.removeOne({ slug });
 
             if (!book) {
                 throw new Error('Not Found');
             }
 
+            // Remove poster file
+            if (book.poster) {
+                await storageUtil.remove(book.poster);
+            }
+
+            // Response data
             return h.response(responseUtil.parse(req, type, book)).code(200);
         } catch (error) {
             errorUtil.parse(error);

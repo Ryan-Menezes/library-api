@@ -79,7 +79,7 @@ module.exports = {
             }
 
             // Remove old avatar file
-            if (user.avatar) {
+            if (data.avatar && user.avatar) {
                 await storageUtil.remove(user.avatar);
             }
 

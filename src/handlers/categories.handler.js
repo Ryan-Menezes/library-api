@@ -1,5 +1,6 @@
 const responseUtil = require('../utils/response.util');
 const errorUtil = require('../utils/error.util');
+const strUtil = require('../utils/str.util');
 const {
     books: booksRepository,
     categories: categoriesRepository,
@@ -37,8 +38,14 @@ module.exports = {
     create: async (req, h) => {
         try {
             const data = req.payload;
+
+            // Slugify
+            data.slug = !data.slug ? strUtil.slugify(data.name) : strUtil.slugify(data.slug);
+
+            // Save data
             const category = await categoriesRepository.create(data);
 
+            // Response data
             return h.response(responseUtil.parse(req, type, category)).code(201);
         } catch (error) {
             errorUtil.parse(error);
@@ -49,12 +56,22 @@ module.exports = {
         try {
             const { slug } = req.params;
             const data = req.payload;
+
+            // Slugify
+            if (!data.slug) {
+                delete data.slug;
+            } else {
+                data.slug = strUtil.slugify(data.slug);
+            }
+
+            // Save data and verify if exists
             const category = await categoriesRepository.update(data, { slug });
 
             if (!category) {
                 throw new Error('Not Found');
             }
 
+            // Response data
             return h.response(responseUtil.parse(req, type, category)).code(200);
         } catch (error) {
             errorUtil.parse(error);
@@ -64,14 +81,18 @@ module.exports = {
     delete: async (req, h) => {
         try {
             const { slug } = req.params;
+
+            // Remove data
             const category = await categoriesRepository.removeOne({ slug });
 
             if (!category) {
                 throw new Error('Not Found');
             }
 
+            // Remove relathionships with books
             await booksRepository.removeCategories(category._id);
 
+            // Response data
             return h.response(responseUtil.parse(req, type, category)).code(200);
         } catch (error) {
             errorUtil.parse(error);

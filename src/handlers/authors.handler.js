@@ -1,6 +1,7 @@
 const responseUtil = require('../utils/response.util');
 const errorUtil = require('../utils/error.util');
 const storageUtil = require('../utils/storage.util');
+const strUtil = require('../utils/str.util');
 const {
     books: booksRepository,
     authors: authorsRepository,
@@ -40,6 +41,9 @@ module.exports = {
 
         try {
             const data = req.payload;
+
+            // Slugify
+            data.slug = !data.slug ? strUtil.slugify(data.name) : strUtil.slugify(data.slug);
             
             // Upload avatar file
             if (data.avatar) {
@@ -68,6 +72,13 @@ module.exports = {
             const { slug } = req.params;
             const data = req.payload;
 
+            // Slugify
+            if (!data.slug) {
+                delete data.slug;
+            } else {
+                data.slug = strUtil.slugify(data.slug);
+            }
+
             // Upload new avatar file
             if (data.avatar) {
                 file_info = await storageUtil.upload(data.avatar);
@@ -82,7 +93,7 @@ module.exports = {
             }
 
             // Remove old avatar file
-            if (author.avatar) {
+            if (data.avatar && author.avatar) {
                 await storageUtil.remove(author.avatar);
             }
 
