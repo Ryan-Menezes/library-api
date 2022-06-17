@@ -9,6 +9,7 @@ module.exports = [
         path: endpoint,
         handler: booksHandler.index,
         options: {
+            auth: false,
             cors: true,
         },
     },
@@ -17,6 +18,7 @@ module.exports = [
         path: `${endpoint}/{slug}`,
         handler: booksHandler.show,
         options: {
+            auth: false,
             cors: true,
         },
     },
@@ -69,6 +71,7 @@ module.exports = [
         path: `${endpoint}/{slug}/categories`,
         handler: booksHandler.categoriesAll,
         options: {
+            auth: false,
             cors: true,
         },
     },
@@ -93,6 +96,7 @@ module.exports = [
         path: `${endpoint}/{slug}/authors`,
         handler: booksHandler.authorsAll,
         options: {
+            auth: false,
             cors: true,
         },
     },

@@ -9,6 +9,7 @@ module.exports = [
         path: endpoint,
         handler: categoriesHandler.index,
         options: {
+            auth: false,
             cors: true,
         },
     },
@@ -17,6 +18,7 @@ module.exports = [
         path: `${endpoint}/{slug}`,
         handler: categoriesHandler.show,
         options: {
+            auth: false,
             cors: true,
         },
     },

@@ -1,6 +1,7 @@
 const responseUtil = require('../utils/response.util');
 const errorUtil = require('../utils/error.util');
 const storageUtil = require('../utils/storage.util');
+const urlUtil = require('../utils/url.util');
 const { users: usersRepository } = require('../repositories/index');
 
 const type = usersRepository.type;
@@ -10,6 +11,9 @@ module.exports = {
         try {
             const { page = 1, limit = 10, ...filter } = req.query;
             const users = await usersRepository.get(filter, page - 1, limit);
+
+            // Set avatar url
+            users.map(user => user.avatar = urlUtil.setUrlUploads(user.avatar));
             
             return h.response(responseUtil.parse(req, type, users)).code(200);
         } catch (error) {
@@ -25,6 +29,9 @@ module.exports = {
             if (!user) {
                 throw new Error('Not Found');
             }
+
+            // Set avatar url
+            user.avatar = urlUtil.setUrlUploads(user.avatar);
 
             return h.response(responseUtil.parse(req, type, user)).code(200);
         } catch (error) {
@@ -46,6 +53,9 @@ module.exports = {
             
             // Save data
             const user = await usersRepository.create(data);
+
+            // Set avatar url
+            user.avatar = urlUtil.setUrlUploads(user.avatar);
 
             // Response data
             return h.response(responseUtil.parse(req, type, user)).code(201);

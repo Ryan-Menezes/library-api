@@ -2,6 +2,7 @@ const responseUtil = require('../utils/response.util');
 const errorUtil = require('../utils/error.util');
 const storageUtil = require('../utils/storage.util');
 const strUtil = require('../utils/str.util');
+const urlUtil = require('../utils/url.util');
 const {
     books: booksRepository,
     categories: categoriesRepository,
@@ -18,6 +19,9 @@ module.exports = {
             const { page = 1, limit = 10, ...filter } = req.query;
             const books = await booksRepository.get(filter, page - 1, limit);
 
+            // Set poster url
+            books.map(book => book.poster = urlUtil.setUrlUploads(book.poster));
+
             return h.response(responseUtil.parse(req, type, books)).code(200);
         } catch (error) {
             errorUtil.parse(error);
@@ -32,6 +36,9 @@ module.exports = {
             if (!book) {
                 throw new Error('Not Found');
             }
+
+            // Set poster url
+            book.poster = urlUtil.setUrlUploads(book.poster);
 
             return h.response(responseUtil.parse(req, type, book)).code(200);
         } catch (error) {
@@ -56,6 +63,9 @@ module.exports = {
 
             // Save data
             const book = await booksRepository.create(data);
+
+            // Set poster url
+            book.poster = urlUtil.setUrlUploads(book.poster);
 
             // Response data
             return h.response(responseUtil.parse(req, type, book)).code(201);

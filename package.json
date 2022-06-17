@@ -18,13 +18,13 @@
   "dependencies": {
     "@hapi/boom": "^10.0.0",
     "@hapi/hapi": "^20.2.2",
+    "@hapi/inert": "^6.0.5",
     "bcryptjs": "^2.4.3",
     "hapi-auth-jwt2": "^10.2.0",
     "ioredis": "^5.0.6",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.3.6",
-    "multer": "^1.4.5-lts.1"
+    "mongoose": "^6.3.6"
   },
   "devDependencies": {
     "dotenv": "^16.0.1",
