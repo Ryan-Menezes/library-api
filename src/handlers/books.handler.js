@@ -12,6 +12,7 @@ const {
 const type = booksRepository.type;
 const typeCategory = categoriesRepository.type;
 const typeAuthor = authorsRepository.type;
+const typeImage = 'images';
 
 module.exports = {
     index: async (req, h) => {
@@ -139,6 +140,88 @@ module.exports = {
 
             // Response data
             return h.response(responseUtil.parse(req, type, book)).code(200);
+        } catch (error) {
+            errorUtil.parse(error);
+        }
+    },
+
+    // -------------------------------------------
+    // Relationships - Images
+    // -------------------------------------------
+
+    imagesAll: async (req, h) => {
+        try {
+            const { slug } = req.params;
+            const { page = 1, limit = 10, ...filter } = req.query;
+            
+            const book = await booksRepository.findOneAll({ slug });
+
+            if (!book) {
+                throw new Error('Not Found');
+            }
+            
+            const images = book.images.map(image => { 
+                return {
+                    filename: image,
+                    url: urlUtil.setUrlUploads(image),
+                };
+            });
+
+            return h.response(responseUtil.parse(req, typeImage, images, false)).code(200);
+        } catch (error) {
+            errorUtil.parse(error);
+        }
+    },
+
+    imagesAdd: async (req, h) => {
+        let file_info = null;
+
+        try {
+            const { slug } = req.params;
+            const data = req.payload;
+            
+            const book = await booksRepository.findOne({ slug });
+
+            if (!book) {
+                throw new Error('Not Found');
+            }
+
+            // Upload new image file
+            if (data.image) {
+                file_info = await storageUtil.upload(data.image);
+                data.image = file_info.filename;
+            }
+
+            const result = await booksRepository.addImage(book._id, data.image);
+
+            return h.response(responseUtil.parse(req, type, result)).code(200);
+        } catch (error) {
+            if (file_info) {
+                await storageUtil.remove(file_info.filename);
+            }
+
+            errorUtil.parse(error);
+        }
+    },
+
+    imagesRemove: async (req, h) => {
+        try {
+            const { slug, filename } = req.params;
+            
+            const book = await booksRepository.findOne({
+                slug,
+                images: filename,
+            });
+
+            if (!book) {
+                throw new Error('Not Found');
+            }
+
+            const result = await booksRepository.removeImage(book._id, filename);
+
+            await storageUtil.remove(filename);
+
+            return h.response(responseUtil.parse(req, type, result)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }

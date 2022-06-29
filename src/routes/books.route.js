@@ -66,6 +66,48 @@ module.exports = [
             cors: true,
         }
     },
+
+    // -------------------------------------------
+    // ROUTES - Images
+    // -------------------------------------------
+
+    {
+        method: 'GET',
+        path: `${endpoint}/{slug}/images`,
+        handler: booksHandler.imagesAll,
+        options: {
+            auth: false,
+            cors: true,
+        },
+    },
+    {
+        method: 'POST',
+        path: `${endpoint}/{slug}/images`,
+        handler: booksHandler.imagesAdd,
+        options: {
+            cors: true,
+            payload: {
+                parse: true,
+                multipart: {
+                    output: 'stream'
+                },
+                maxBytes: 1000 * 1000 * 200, // 200 Mb
+            },
+        },
+    },
+    {
+        method: 'DELETE',
+        path: `${endpoint}/{slug}/images/{filename}`,
+        handler: booksHandler.imagesRemove,
+        options: {
+            cors: true,
+        },
+    },
+
+    // -------------------------------------------
+    // ROUTES - Categories
+    // -------------------------------------------
+
     {
         method: 'GET',
         path: `${endpoint}/{slug}/categories`,
@@ -91,6 +133,11 @@ module.exports = [
             cors: true,
         },
     },
+
+    // -------------------------------------------
+    // ROUTES - Authors
+    // -------------------------------------------
+
     {
         method: 'GET',
         path: `${endpoint}/{slug}/authors`,

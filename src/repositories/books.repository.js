@@ -32,6 +32,18 @@ module.exports = {
         return book;
     },
 
+    addImage: (book_id, filename) => BookModel.findOneAndUpdate({ _id: book_id }, {
+        $addToSet: {
+            images: filename,
+        },
+    }),
+
+    removeImage: (book_id, filename) => BookModel.findOneAndUpdate({ _id: book_id }, {
+        $pull: {
+            images: filename,
+        },
+    }),
+
     addCategory: (book_id, category_id) => BookModel.findOneAndUpdate({ _id: book_id }, {
         $addToSet: {
             categories: category_id,
