@@ -6,6 +6,7 @@ module.exports = {
             case 'Not Found':
                 throw boom.notFound(error.message);
             default:
+                console.log(error.errors);
                 throw boom.badImplementation(error);
         }
     },

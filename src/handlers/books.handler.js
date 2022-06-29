@@ -131,17 +131,22 @@ module.exports = {
         try {
             const { slug } = req.params;
 
-            // Remove data
-            const book = await booksRepository.removeOne({ slug });
-
+            // Find data
+            const book = await booksRepository.findOneAll({ slug });
             if (!book) {
                 throw new Error('Not Found');
             }
+
+            // Remove data
+            await booksRepository.removeOne({ slug });
 
             // Remove poster file
             if (book.poster) {
                 await storageUtil.remove(book.poster);
             }
+
+            // Remove images from gallery
+            book.images.map(async image => await storageUtil.remove(image));
 
             // Response data
             return h.response(responseUtil.parse(req, type, book)).code(200);

@@ -37,29 +37,45 @@ module.exports = {
         return book;
     },
 
-    addImage: (book_id, filename) => BookModel.findOneAndUpdate({ _id: book_id }, {
-        $addToSet: {
-            images: filename,
-        },
-    }),
+    addImage: async function(book_id, filename) {
+        await this.update({
+            $addToSet: {
+                images: filename,
+            },
+        }, { _id: book_id });
 
-    removeImage: (book_id, filename) => BookModel.findOneAndUpdate({ _id: book_id }, {
-        $pull: {
-            images: filename,
-        },
-    }),
+        return this.findById(book_id);
+    },
 
-    addCategory: (book_id, category_id) => BookModel.findOneAndUpdate({ _id: book_id }, {
-        $addToSet: {
-            categories: category_id,
-        },
-    }),
+    removeImage: async function(book_id, filename) {
+        await this.update({
+            $pull: {
+                images: filename,
+            },
+        }, { _id: book_id });
 
-    removeCategory: (book_id, category_id) => BookModel.findOneAndUpdate({ _id: book_id }, {
-        $pull: {
-            categories: category_id,
-        },
-    }),
+        return this.findById(book_id);
+    },
+
+    addCategory: async function(book_id, category_id) {
+        await this.update({
+            $addToSet: {
+                categories: category_id,
+            },
+        }, { _id: book_id });
+
+        return this.findById(book_id);
+    },
+
+    removeCategory: async function(book_id, category_id) {
+        await this.update({
+            $pull: {
+                categories: category_id,
+            },
+        }, { _id: book_id });
+
+        return this.findById(book_id);
+    },
 
     removeCategories: (category_id) => BookModel.updateMany({}, {
         $pull: {
@@ -67,17 +83,25 @@ module.exports = {
         },
     }),
 
-    addAuthor: (book_id, author_id) => BookModel.findOneAndUpdate({ _id: book_id }, {
-        $addToSet: {
-            authors: author_id,
-        },
-    }),
+    addAuthor: async function(book_id, author_id) {
+        await this.update({
+            $addToSet: {
+                authors: author_id,
+            },
+        }, { _id: book_id });
 
-    removeAuthor: (book_id, author_id) => BookModel.findOneAndUpdate({ _id: book_id }, {
-        $pull: {
-            authors: author_id,
-        },
-    }),
+        return this.findById(book_id);
+    },
+
+    removeAuthor: async function(book_id, author_id) {
+        await this.update({
+            $pull: {
+                authors: author_id,
+            },
+        }, { _id: book_id });
+
+        return this.findById(book_id);
+    },
 
     removeAuthors: (author_id) => BookModel.updateMany({}, {
         $pull: {
