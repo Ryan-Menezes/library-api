@@ -82,6 +82,12 @@ module.exports = {
             const { slug } = req.params;
             const data = req.payload;
 
+            // Search old author and verify if exists
+            const author_old = await authorsRepository.findOne({ slug });
+            if (!author_old) {
+                throw new Error('Not Found');
+            }
+
             // Slugify
             if (!data.slug) {
                 delete data.slug;
@@ -95,16 +101,15 @@ module.exports = {
                 data.avatar = file_info.filename;
             }
 
-            // Save data and verify if exists
+            // Save data
             const author = await authorsRepository.update(data, { slug });
 
-            if (!author) {
-                throw new Error('Not Found');
-            }
+            // Set avatar url
+            author.avatar = urlUtil.setUrlUploads(author.avatar);
 
             // Remove old avatar file
-            if (data.avatar && author.avatar) {
-                await storageUtil.remove(author.avatar);
+            if (data.avatar && author_old.avatar) {
+                await storageUtil.remove(author_old.avatar);
             }
 
             // Response data

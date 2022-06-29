@@ -86,6 +86,12 @@ module.exports = {
             const { slug } = req.params;
             const data = req.payload;
 
+            // Search old author and verify if exists
+            const book_old = await booksRepository.findOne({ slug });
+            if (!book_old) {
+                throw new Error('Not Found');
+            }
+
             // Slugify
             if (!data.slug) {
                 delete data.slug;
@@ -102,13 +108,12 @@ module.exports = {
             // Save data and verify if exists
             const book = await booksRepository.update(data, { slug });
 
-            if (!book) {
-                throw new Error('Not Found');
-            }
+            // Set poster url
+            book.poster = urlUtil.setUrlUploads(book.poster);
 
             // Remove old poster file
-            if (data.poster && book.poster) {
-                await storageUtil.remove(book.poster);
+            if (data.poster && book_old.poster) {
+                await storageUtil.remove(book_old.poster);
             }
 
             // Response data

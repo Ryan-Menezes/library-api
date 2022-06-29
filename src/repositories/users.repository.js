@@ -8,38 +8,41 @@ module.exports = {
 
     findOne: (filter = {}) => UserModel.findOne(filter, { password: false, __v: false }).lean(),
 
-    findById: (id) => UserModel.findOne({ _id: id }, { password: false, __v: false }).lean(),
+    findById: function(id) {
+        return this.findOne({ _id: id });
+    },
 
     findUsernameAuth: (username) => UserModel.findOne({ username }, { __v: false }).lean(),
 
-    create: async (data) => {
+    create: async function(data) {
         if(data.password){
             data.password = await hashUtil.generate(data.password);
         }
 
         const user = new UserModel(data);
-        return user.save();
+        await user.save();
+
+        return this.findById(user._id);
     },
 
-    update: async (data, filter) => {
+    update: async function(data, filter) {
         if(data.password){
             data.password = await hashUtil.generate(data.password);
         }
 
-        return UserModel.findOneAndUpdate(filter, data)
+        await UserModel.updateOne(filter, data);
+        return this.findOne(filter);
     },
 
-    removeOne: async (filter) => {
-        const user = await UserModel.findOne(filter, { __v: false }).lean();
+    removeOne: async function(filter) {
+        const user = await this.findOne(filter);
         await UserModel.deleteOne(filter);
-
         return user;
     },
 
-    removeById: async (id) => {
-        const user = await UserModel.findOne({ _id: id }, { password: false, __v: false }).lean();
+    removeById: async function(id) {
+        const user = await this.findById(id);
         await UserModel.deleteOne({ _id: id });
-
         return user;
     },
 };

@@ -9,26 +9,31 @@ module.exports = {
 
     findOneAll: (filter = {}) => BookModel.findOne(filter, { __v: false }).lean(),
 
-    findById: (id) => BookModel.findOne({ _id: id }, { images: false, categories: false, authors: false, __v: false }).lean(),
-
-    create: (data) => {
-        const book = new BookModel(data);
-        return book.save();
+    findById: function(id) {
+        return this.findOne({ _id: id });
     },
 
-    update: (data, filter) => BookModel.findOneAndUpdate(filter, data),
+    create: async function(data) {
+        const book = new BookModel(data);
+        await book.save();
 
-    removeOne: async (filter) => {
-        const book = await BookModel.findOne(filter, { images: false, categories: false, authors: false, __v: false }).lean();
+        return this.findById(book._id);
+    },
+
+    update: async function(data, filter) {
+        await BookModel.updateOne(filter, data);
+        return this.findOne(filter);
+    },
+
+    removeOne: async function(filter) {
+        const book = await this.findOne(filter);
         await BookModel.deleteOne(filter);
-
         return book;
     },
 
-    removeById: async (id) => {
-        const book = await BookModel.findOne({ _id: id }, { images: false, categories: false, authors: false, __v: false }).lean();
+    removeById: async function(id) {
+        const book = await this.findById(id);
         await BookModel.deleteOne({ _id: id });
-
         return book;
     },
 

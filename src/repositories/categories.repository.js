@@ -7,26 +7,30 @@ module.exports = {
 
     findOne: (filter = {}) => CategoryModel.findOne(filter, { __v: false }).lean(),
 
-    findById: (id) => CategoryModel.findOne({ _id: id }, { __v: false }).lean(),
-
-    create: (data) => {
-        const category = new CategoryModel(data);
-        return category.save();
+    findById: function(id) {
+        return this.findOne({ _id: id });
     },
 
-    update: (data, filter) => CategoryModel.findOneAndUpdate(filter, data),
+    create: async function(data) {
+        const category = new CategoryModel(data);
+        await category.save();
+        return this.findById(category._id);
+    },
 
-    removeOne: async (filter) => {
-        const category = await CategoryModel.findOne(filter, { __v: false }).lean();
+    update: async function(data, filter) {
+        await CategoryModel.updateOne(filter, data);
+        return this.findOne(filter);
+    },
+
+    removeOne: async function(filter) {
+        const category = await this.findOne(filter);
         await CategoryModel.deleteOne(filter);
-
         return category;
     },
 
-    removeById: async (id) => {
-        const category = await CategoryModel.findOne({ _id: id }, { __v: false }).lean();
+    removeById: async function(id) {
+        const category = await this.findById(id);
         await CategoryModel.deleteOne({ _id: id });
-
         return category;
     },
 };

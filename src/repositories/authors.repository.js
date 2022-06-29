@@ -7,26 +7,31 @@ module.exports = {
 
     findOne: (filter = {}) => AuthorModel.findOne(filter, { __v: false }).lean(),
 
-    findById: (id) => AuthorModel.findOne({ _id: id }, { __v: false }).lean(),
-
-    create: (data) => {
-        const author = new AuthorModel(data);
-        return author.save();
+    findById: function(id) {
+        return this.findOne({ _id: id });
     },
 
-    update: (data, filter) => AuthorModel.findOneAndUpdate(filter, data),
+    create: async function(data) {
+        const author = new AuthorModel(data);
+        await author.save();
 
-    removeOne: async (filter) => {
-        const author = await AuthorModel.findOne(filter, { __v: false }).lean();
+        return this.findById(author._id);
+    },
+
+    update: async function(data, filter) {
+        await AuthorModel.updateOne(filter, data);
+        return this.findOne(filter);
+    },
+
+    removeOne: async function(filter) {
+        const author = await this.findOne(filter);
         await AuthorModel.deleteOne(filter);
-
         return author;
     },
 
-    removeById: async (id) => {
-        const author = await AuthorModel.findOne({ _id: id }, { __v: false }).lean();
+    removeById: async function(id) {
+        const author = await this.findById(id);
         await AuthorModel.deleteOne({ _id: id });
-
         return author;
     },
 };

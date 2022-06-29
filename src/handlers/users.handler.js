@@ -75,22 +75,27 @@ module.exports = {
             const { id } = req.params;
             const data = req.payload;
 
+            // Search old user and verify if exists
+            const user_old = await usersRepository.findOne({ _id: id });
+            if (!user_old) {
+                throw new Error('Not Found');
+            }
+
             // Upload new avatar file
             if (data.avatar) {
                 file_info = await storageUtil.upload(data.avatar);
                 data.avatar = file_info.filename;
             }
 
-            // Save data and verify if exists
+            // Save data
             const user = await usersRepository.update(data, { _id: id });
 
-            if (!user) {
-                throw new Error('Not Found');
-            }
+            // Set avatar url
+            user.avatar = urlUtil.setUrlUploads(user.avatar);
 
             // Remove old avatar file
-            if (data.avatar && user.avatar) {
-                await storageUtil.remove(user.avatar);
+            if (data.avatar && user_old.avatar) {
+                await storageUtil.remove(user_old.avatar);
             }
 
             // Response data

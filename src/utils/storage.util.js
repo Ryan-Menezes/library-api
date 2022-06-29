@@ -1,24 +1,33 @@
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
+const md5 = require('md5');
 
 const { storage: storageConfig } = require('../config/index');
 
 module.exports = {
     upload: file => new Promise((resolve, reject) => {
-        const filename = new Date().getTime() + '_' + file.hapi.filename;
-        const data = file._data;
-        const p = path.join(__dirname, '..', storageConfig.path, filename);
-
-        fs.writeFile(p, data, error => {
+        crypto.randomBytes(5, (error, buffer) => {
             if (error) {
-                reject(error);
+                return reject(error);
             }
 
-            resolve({
-                filename,
-                path: p,
+            const filename = md5(buffer.toString('hex') + new Date().getTime() + file.hapi.filename) + path.extname(file.hapi.filename);
+
+            const data = file._data;
+            const p = path.join(__dirname, '..', storageConfig.path, filename);
+
+            fs.writeFile(p, data, error => {
+                if (error) {
+                    return reject(error);
+                }
+
+                resolve({
+                    filename,
+                    path: p,
+                });
             });
-        });
+        });   
     }),
 
     remove: filename => new Promise((resolve, reject) => {
