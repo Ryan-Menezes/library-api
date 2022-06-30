@@ -73,7 +73,7 @@ The `list` actions allow sending the following parameters:
     + Body
 
             {
-                "username": "username",
+                "username": "RM",
                 "password": "12345678"
             }
 
@@ -117,20 +117,16 @@ The `list` actions allow sending the following parameters:
 | `last_name(Optional)` | Last name of user. | String |
 | `username(Optional)` | Username of user. | String |
 
-+ Request (application/json)
-
-    + Headers
-
-            Authorization: Bearer [access_token]
++ Request (application/x-www-form-urlencoded)
 
     + Body
 
             {
                 "page": 1,
                 "limit": 10,
-                "first_name": "test",
-                "last_name": "test",
-                "username": "username"
+                "first_name": "Ryan",
+                "last_name": "Menezes",
+                "username": "RM"
             }
 
 + Response 200 (application/json)
@@ -176,10 +172,6 @@ The `list` actions allow sending the following parameters:
 ### Find (/users/{id}) [GET]
 
 + Request (application/json)
-
-    + Headers
-
-            Authorization: Bearer [access_token]
 
 + Response 200 (application/json)
 
@@ -242,9 +234,9 @@ The `list` actions allow sending the following parameters:
     + Body
 
             {
-                "first_name": "test",
-                "last_name": "test",
-                "username": "test@gmail.com",
+                "first_name": "Ryan",
+                "last_name": "Menezes",
+                "username": "RM",
                 "password": "12345678",
                 "avatar": [FILE]
             }
@@ -310,9 +302,9 @@ The `list` actions allow sending the following parameters:
     + Body
 
             {
-                "first_name": "test",
-                "last_name": "test",
-                "username": "test@gmail.com",
+                "first_name": "Ryan",
+                "last_name": "Menezes",
+                "username": "RM",
                 "password": "12345678",
                 "avatar": [FILE]
             }
@@ -388,7 +380,7 @@ The `list` actions allow sending the following parameters:
                       "_id": "62bc98884ef43fe6ce0a79b0",
                       "first_name": "Ryan",
                       "last_name": "Menezes",
-                      "username": "RM4",
+                      "username": "RM",
                       "avatar": "26fd63afd17c910e46531f3562cc5d78.png",
                       "created_at": "2022-06-29T18:23:04.922Z",
                       "updated_at": "2022-06-29T18:23:04.922Z"
@@ -417,4 +409,307 @@ The `list` actions allow sending the following parameters:
               "statusCode": 500,
               "error": "Internal Server Error",
               "message": "An internal server error occurred"
+            }   
+            
+## Authros [/authors]
+
+### List (/authors) [GET]            
+
+| Param | Description | Type |
+|---|---|---|
+| `page(Optional)` | Informs the beginning of the listing (by default it starts with 1). | Integer |
+| `limit(Optional)` | Returned data limit (by default it starts with 10). | Integer |
+| `name(Optional)` | Name of author. | String |
+| `slug(Optional)` | Slug of author. | String |
+| `description(Optional)` | Description of author. | String |
+
++ Request (application/x-www-form-urlencoded)
+
+    + Body
+
+            {
+                "page": 1,
+                "limit": 10,
+                "name": "Machado de Assis",
+                "slug": "machado-de-assis",
+                "description": "Brazilian author"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": [
+                    {
+                        "type": "authors",
+                        "attributes": {
+                            "_id": "62a78ee805b991e50ee8cf94",
+                            "name": "Machado de Assis",
+                            "slug": "machado-de-assis",
+                            "description": "Brazilian author",
+                            "avatar": "http://localhost:3000/uploads/d7cb9a6e25188e0d69f8b90f0e9fcb60.jpg",
+                            "created_at": "2022-06-13T19:24:24.891Z",
+                            "updated_at": "2022-06-29T18:28:43.582Z"
+                        },
+                        "links": {
+                            "self": "http://localhost:3000/authors/machado-de-assis"
+                        }
+                    },
+                    ...
+                ],
+                "links": {
+                    "self": "http://localhost:3000/authors",
+                    "next": "http://localhost:3000/authors?limit=10&page=2",
+                    "last": "http://localhost:3000/authors?limit=10&page=1"
+                }
+          }
+ 
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+
+### Find (/authors/{slug}) [GET]
+
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": {
+                    "type": "authors",
+                    "attributes": {
+                        "_id": "62a78ee805b991e50ee8cf94",
+                        "name": "Machado de Assis",
+                        "slug": "machado-de-assis",
+                        "description": "Brazilian author",
+                        "avatar": "http://localhost:3000/uploads/d7cb9a6e25188e0d69f8b90f0e9fcb60.jpg",
+                        "created_at": "2022-06-13T19:24:24.891Z",
+                        "updated_at": "2022-06-29T18:28:43.582Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/authors"
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Create (/authors) [POST]
+
+| Param | Description | Type |
+|---|---|---|
+| `name(Optional)` | Name of author. | String |
+| `slug(Optional)` | Slug of author. | String |
+| `description(Optional)` | Description of author. | String |
+| `avatar(Optional)` | Avatar of author. | File(Image) |
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
+    + Body
+
+            {
+                "name": "Machado de Assis",
+                "slug": "machado-de-assis",
+                "description": "Brazilian author",
+                "avatar": [FILE]
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+           {
+                "data": {
+                    "type": "authors",
+                    "attributes": {
+                        "_id": "62a78ee805b991e50ee8cf94",
+                        "name": "Machado de Assis",
+                        "slug": "machado-de-assis",
+                        "description": "Brazilian author",
+                        "avatar": "http://localhost:3000/uploads/d7cb9a6e25188e0d69f8b90f0e9fcb60.jpg",
+                        "created_at": "2022-06-13T19:24:24.891Z",
+                        "updated_at": "2022-06-29T18:28:43.582Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/authors"
+                }
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 400,
+              "error": "Bad Request",
+              "message": "Invalid request payload input"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Update (/authors/{slug}) [PUT]
+
+| Param | Description | Type |
+|---|---|---|
+| `name(Optional)` | Name of author. | String |
+| `slug(Optional)` | Slug of author. | String |
+| `description(Optional)` | Description of author. | String |
+| `avatar(Optional)` | Avatar of author. | File(Image) |
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
+    + Body
+
+            {
+                "name": "Machado de Assis",
+                "slug": "machado-de-assis",
+                "description": "Brazilian author",
+                "avatar": [FILE]
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+           {
+                "data": {
+                    "type": "authors",
+                    "attributes": {
+                        "_id": "62a78ee805b991e50ee8cf94",
+                        "name": "Machado de Assis",
+                        "slug": "machado-de-assis",
+                        "description": "Brazilian author",
+                        "avatar": "http://localhost:3000/uploads/d7cb9a6e25188e0d69f8b90f0e9fcb60.jpg",
+                        "created_at": "2022-06-13T19:24:24.891Z",
+                        "updated_at": "2022-06-29T18:28:43.582Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/authors"
+                }
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 400,
+              "error": "Bad Request",
+              "message": "Invalid request payload input"
+            }
+            
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
             }    
+            
+            
+### Delete (/authors/{slug}) [DELETE]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": {
+                    "type": "authors",
+                    "attributes": {
+                        "_id": "62a78ee805b991e50ee8cf94",
+                        "name": "Machado de Assis",
+                        "slug": "machado-de-assis",
+                        "description": "Brazilian author",
+                        "avatar": "http://localhost:3000/uploads/d7cb9a6e25188e0d69f8b90f0e9fcb60.jpg",
+                        "created_at": "2022-06-13T19:24:24.891Z",
+                        "updated_at": "2022-06-29T18:28:43.582Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/authors"
+                }
+            }
+
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }          
