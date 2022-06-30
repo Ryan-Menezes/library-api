@@ -24,7 +24,7 @@ Resources available for access via API:
 * [**Categories**](#reference/resources/categories)
 * [**Books**](#reference/resources/books)
 
-## Métodos
+## Methods
 API requests must follow the standards:
 
 | Method | Description |
@@ -105,6 +105,26 @@ The `list` actions allow sending the following parameters:
               "error": "Internal Server Error",
               "message": "An internal server error occurred"
             }
+            
+### Logout (/logout) [POST]
+
++ Request (application/json)
+    
+    + Headers
+
+            Authorization: Bearer [access_token]
+
++ Response 200 (application/json)
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
 
 ## Users [/users]
 
@@ -119,6 +139,10 @@ The `list` actions allow sending the following parameters:
 | `username(Optional)` | Username of user. | String |
 
 + Request (application/x-www-form-urlencoded)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
 
     + Body
 
@@ -173,6 +197,10 @@ The `list` actions allow sending the following parameters:
 ### Find (/users/{id}) [GET]
 
 + Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
 
 + Response 200 (application/json)
 
@@ -526,7 +554,7 @@ The `list` actions allow sending the following parameters:
 
 | Param | Description | Type |
 |---|---|---|
-| `name(Optional)` | Name of author. | String |
+| `name` | Name of author. | String |
 | `slug(Optional)` | Slug of author. | String |
 | `description(Optional)` | Description of author. | String |
 | `avatar(Optional)` | Avatar of author. | File(Image) |
@@ -592,7 +620,7 @@ The `list` actions allow sending the following parameters:
 
 | Param | Description | Type |
 |---|---|---|
-| `name(Optional)` | Name of author. | String |
+| `name` | Name of author. | String |
 | `slug(Optional)` | Slug of author. | String |
 | `description(Optional)` | Description of author. | String |
 | `avatar(Optional)` | Avatar of author. | File(Image) |
@@ -827,7 +855,7 @@ The `list` actions allow sending the following parameters:
 
 | Param | Description | Type |
 |---|---|---|
-| `name(Optional)` | Name of category. | String |
+| `name` | Name of category. | String |
 | `slug(Optional)` | Slug of category. | String |
 | `description(Optional)` | Description of category. | String |
 
@@ -864,6 +892,79 @@ The `list` actions allow sending the following parameters:
                 "links": {
                     "self": "http://localhost:3000/categories"
                 }
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 400,
+              "error": "Bad Request",
+              "message": "Invalid request payload input"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Update (/categories/{slug}) [PUT]
+
+| Param | Description | Type |
+|---|---|---|
+| `name` | Name of category. | String |
+| `slug(Optional)` | Slug of category. | String |
+| `description(Optional)` | Description of category. | String |
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
+    + Body
+
+            {
+                "name": "Horror",
+                "slug": "horror",
+                "description": "Horror books"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+           {
+                "data": {
+                    "type": "categories",
+                    "attributes": {
+                        "_id": "62a78ee805b991e50ee8cf94",
+                        "name": "Horror",
+                        "slug": "horror",
+                        "description": "Horror books",
+                        "created_at": "2022-06-13T19:24:24.891Z",
+                        "updated_at": "2022-06-29T18:28:43.582Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/categories"
+                }
+            }
+
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
             }
 
 + Response 400 (application/json)
