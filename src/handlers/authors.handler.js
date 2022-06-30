@@ -14,7 +14,7 @@ module.exports = {
     index: async (req, h) => {
         try {
             const { page = 1, limit = 10, ...filter } = req.query;
-            const authors = await authorsRepository.get(filter, page - 1, limit);
+            const authors = await authorsRepository.get(filter, (page - 1) * limit, limit);
 
             // Set avatar url
             authors.map(author => author.avatar = urlUtil.setUrlUploads(author.avatar));

@@ -12,7 +12,7 @@ module.exports = {
     index: async (req, h) => {
         try {
             const { page = 1, limit = 10, ...filter } = req.query;
-            const categories = await categoriesRepository.get(filter, page - 1, limit);
+            const categories = await categoriesRepository.get(filter, (page - 1) * limit, limit);
 
             return h.response(responseUtil.parse(req, type, categories)).code(200);
         } catch (error) {

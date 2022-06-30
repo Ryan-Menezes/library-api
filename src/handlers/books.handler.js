@@ -18,7 +18,7 @@ module.exports = {
     index: async (req, h) => {
         try {
             const { page = 1, limit = 10, ...filter } = req.query;
-            const books = await booksRepository.get(filter, page - 1, limit);
+            const books = await booksRepository.get(filter, (page - 1) * limit, limit);
 
             // Set poster url
             books.map(book => book.poster = urlUtil.setUrlUploads(book.poster));
@@ -162,7 +162,6 @@ module.exports = {
     imagesAll: async (req, h) => {
         try {
             const { slug } = req.params;
-            const { page = 1, limit = 10, ...filter } = req.query;
             
             const book = await booksRepository.findOneAll({ slug });
 
@@ -253,7 +252,7 @@ module.exports = {
             }
             
             filter._id = { $in: book.categories };
-            const categories = await categoriesRepository.get(filter, page - 1, limit);
+            const categories = await categoriesRepository.get(filter, (page - 1) * limit, limit);
 
             return h.response(responseUtil.parse(req, typeCategory, categories)).code(200);
         } catch (error) {
@@ -321,7 +320,7 @@ module.exports = {
             }
             
             filter._id = { $in: book.authors };
-            const authors = await authorsRepository.get(filter, page - 1, limit);
+            const authors = await authorsRepository.get(filter, (page - 1) * limit, limit);
 
             return h.response(responseUtil.parse(req, typeAuthor, authors)).code(200);
         } catch (error) {
