@@ -1035,3 +1035,359 @@ The `list` actions allow sending the following parameters:
               "error": "Internal Server Error",
               "message": "An internal server error occurred"
             }
+
+## Books [/books]
+
+### List (/books) [GET]            
+
+| Param | Description | Type |
+|---|---|---|
+| `page(Optional)` | Informs the beginning of the listing (by default it starts with 1). | Integer |
+| `limit(Optional)` | Returned data limit (by default it starts with 10). | Integer |
+| `title(Optional)` | Title of book. | String |
+| `slug(Optional)` | Slug of book. | String |
+| `visible(Optional)` | Visible of book. | Boolean |
+| `volume(Optional)` | Volume of book. | Integer |
+| `edition(Optional)` | Edition of book. | Integer |
+| `release_date(Optional)` | Release date of book. | Date |
+| `description(Optional)` | Description of book. | String |
+| `details(Optional)` | Details of book. | String |
+
++ Request (application/x-www-form-urlencoded)
+
+    + Body
+
+            {
+                "page": 1,
+                "limit": 10,
+                "title": "O pequeno príncipe",
+				"slug": "o-pequeno-principe",
+                "visible": true,
+				"volume": 1,
+				"edition": 1,
+				"release_date": "2000-01-01T00:00:00.000Z",
+				"description": "O pequeno príncipe",
+				"details": "O pequeno príncipe"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": [
+                    {
+                        "type": "books",
+                        "attributes": {
+                            "_id": "62be2bcfcd31a9205fcee99d",
+                            "title": "O pequeno príncipe",
+                            "slug": "o-pequeno-principe",
+                            "visible": true,
+                            "volume": 1,
+                            "edition": 1,
+                            "release_date": "2000-01-01T00:00:00.000Z",
+                            "description": "O pequeno príncipe",
+				            "details": "O pequeno príncipe",
+                            "poster": "http://localhost:3000/uploads/ad8a8f1cda416f0bbb633b289283a59f.jpg",
+                            "created_at": "2022-06-30T23:03:43.136Z",
+                            "updated_at": "2022-06-30T23:05:21.043Z"
+                        },
+                        "links": {
+                            "self": "http://localhost:3000/books/o-pequeno-principe"
+                        }
+                    },
+                    ...
+                ],
+                "links": {
+                    "self": "http://localhost:3000/books",
+                    "next": "http://localhost:3000/books?limit=10&page=2"
+                }
+            }
+ 
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Find (/books/{slug}) [GET]
+
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": {
+                    "type": "books",
+                    "attributes": {
+                        "_id": "62be2bcfcd31a9205fcee99d",
+                        "title": "O pequeno príncipe",
+                        "slug": "o-pequeno-principe",
+                        "visible": true,
+                        "volume": 1,
+                        "edition": 1,
+                        "release_date": "2000-01-01T00:00:00.000Z",
+                        "description": "O pequeno príncipe",
+                        "details": "O pequeno príncipe",
+                        "poster": "http://localhost:3000/uploads/ad8a8f1cda416f0bbb633b289283a59f.jpg",
+                        "created_at": "2022-06-30T23:03:43.136Z",
+                        "updated_at": "2022-06-30T23:05:21.043Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/books"
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+ ### Create (/books) [POST]
+
+| Param | Description | Type |
+|---|---|---|
+| `title` | Title of book. | String |
+| `slug(Optional)` | Slug of book. | String |
+| `visible(Optional)` | Visible of book. | Boolean |
+| `volume` | Volume of book. | Integer |
+| `edition` | Edition of book. | Integer |
+| `release_date` | Release date of book. | Date |
+| `description(Optional)` | Description of book. | String |
+| `details(Optional)` | Details of book. | String |
+| `poster(Optional)` | Poster of book. | File(Image) |
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
+    + Body
+
+            {
+                "title": "O pequeno príncipe",
+				"slug": "o-pequeno-principe",
+				"visible": true,
+				"volume": 1,
+				"edition": 1,
+				"release_date": "2000-01-01T00:00:00.000Z",
+				"description": "O pequeno príncipe",
+				"details": "O pequeno príncipe",
+                "poster": FILE
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+           {
+                "data": {
+                    "type": "books",
+                    "attributes": {
+                        "_id": "62be2bcfcd31a9205fcee99d",
+                        "title": "O pequeno príncipe",
+                        "slug": "o-pequeno-principe",
+                        "visible": true,
+                        "volume": 1,
+                        "edition": 1,
+                        "release_date": "2000-01-01T00:00:00.000Z",
+                        "description": "O pequeno príncipe",
+                        "details": "O pequeno príncipe",
+                        "poster": "http://localhost:3000/uploads/ad8a8f1cda416f0bbb633b289283a59f.jpg",
+                        "created_at": "2022-06-30T23:03:43.136Z",
+                        "updated_at": "2022-06-30T23:05:21.043Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/books"
+                }
+            }
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 400,
+              "error": "Bad Request",
+              "message": "Invalid request payload input"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Update (/books/{slug}) [PUT]
+
+| Param | Description | Type |
+|---|---|---|
+| `title` | Title of book. | String |
+| `slug(Optional)` | Slug of book. | String |
+| `visible(Optional)` | Visible of book. | Boolean |
+| `volume` | Volume of book. | Integer |
+| `edition` | Edition of book. | Integer |
+| `release_date` | Release date of book. | Date |
+| `description(Optional)` | Description of book. | String |
+| `details(Optional)` | Details of book. | String |
+| `poster(Optional)` | Poster of book. | File(Image) |
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
+    + Body
+
+            {
+                "title": "O pequeno príncipe",
+				"slug": "o-pequeno-principe",
+				"visible": true,
+				"volume": 1,
+				"edition": 1,
+				"release_date": "2000-01-01T00:00:00.000Z",
+				"description": "O pequeno príncipe",
+				"details": "O pequeno príncipe",
+                "poster": FILE
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+           {
+                "data": {
+                    "type": "books",
+                    "attributes": {
+                        "_id": "62be2bcfcd31a9205fcee99d",
+                        "title": "O pequeno príncipe",
+                        "slug": "o-pequeno-principe",
+                        "visible": true,
+                        "volume": 1,
+                        "edition": 1,
+                        "release_date": "2000-01-01T00:00:00.000Z",
+                        "description": "O pequeno príncipe",
+                        "details": "O pequeno príncipe",
+                        "poster": "http://localhost:3000/uploads/ad8a8f1cda416f0bbb633b289283a59f.jpg",
+                        "created_at": "2022-06-30T23:03:43.136Z",
+                        "updated_at": "2022-06-30T23:05:21.043Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/books"
+                }
+            }
+
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 400,
+              "error": "Bad Request",
+              "message": "Invalid request payload input"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Delete (/books/{slug}) [DELETE]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": {
+                    "type": "books",
+                    "attributes": {
+                        "_id": "62be2bcfcd31a9205fcee99d",
+                        "title": "O pequeno príncipe",
+                        "slug": "o-pequeno-principe",
+                        "visible": true,
+                        "volume": 1,
+                        "edition": 1,
+                        "release_date": "2000-01-01T00:00:00.000Z",
+                        "description": "O pequeno príncipe",
+                        "details": "O pequeno príncipe",
+                        "poster": "http://localhost:3000/uploads/ad8a8f1cda416f0bbb633b289283a59f.jpg",
+                        "created_at": "2022-06-30T23:03:43.136Z",
+                        "updated_at": "2022-06-30T23:05:21.043Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/books"
+                }
+            }
+
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }            
