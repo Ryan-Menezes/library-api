@@ -49,6 +49,7 @@ API requests must follow the standards:
 | `410` | Searched record has been deleted from the system and is no longer available.|
 | `422` | Data entered is outside the scope defined for the field.|
 | `429` | Maximum number of requests reached. (*wait a few seconds and try again*)|
+| `500` | Internal server error|
 
 ## List
 Depending on which endpoint you are calling via GET, there may be more parameters available for fetching, but the default will always be this:
@@ -411,7 +412,7 @@ The `list` actions allow sending the following parameters:
               "message": "An internal server error occurred"
             }   
             
-## Authros [/authors]
+## Authors [/authors]
 
 ### List (/authors) [GET]            
 
@@ -684,7 +685,7 @@ The `list` actions allow sending the following parameters:
                         "name": "Machado de Assis",
                         "slug": "machado-de-assis",
                         "description": "Brazilian author",
-                        "avatar": "http://localhost:3000/uploads/d7cb9a6e25188e0d69f8b90f0e9fcb60.jpg",
+                        "avatar": "d7cb9a6e25188e0d69f8b90f0e9fcb60.jpg",
                         "created_at": "2022-06-13T19:24:24.891Z",
                         "updated_at": "2022-06-29T18:28:43.582Z"
                     }
@@ -713,3 +714,223 @@ The `list` actions allow sending the following parameters:
               "error": "Internal Server Error",
               "message": "An internal server error occurred"
             }          
+
+## Categories [/categories]
+
+### List (/categories) [GET]            
+
+| Param | Description | Type |
+|---|---|---|
+| `page(Optional)` | Informs the beginning of the listing (by default it starts with 1). | Integer |
+| `limit(Optional)` | Returned data limit (by default it starts with 10). | Integer |
+| `name(Optional)` | Name of category. | String |
+| `slug(Optional)` | Slug of category. | String |
+| `description(Optional)` | Description of category. | String |
+
++ Request (application/x-www-form-urlencoded)
+
+    + Body
+
+            {
+                "page": 1,
+                "limit": 10,
+                "name": "Horror",
+                "slug": "horror",
+                "description": "Horror books"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": [
+                    {
+                        "type": "categories",
+                        "attributes": {
+                            "_id": "62a78ee805b991e50ee8cf94",
+                            "name": "Horror",
+                            "slug": "horror",
+                            "description": "Horror books",
+                            "created_at": "2022-06-13T19:24:24.891Z",
+                            "updated_at": "2022-06-29T18:28:43.582Z"
+                        },
+                        "links": {
+                            "self": "http://localhost:3000/categories/horror"
+                        }
+                    },
+                    ...
+                ],
+                "links": {
+                    "self": "http://localhost:3000/categories",
+                    "next": "http://localhost:3000/categories?limit=10&page=2",
+                    "last": "http://localhost:3000/categories?limit=10&page=1"
+                }
+          }
+ 
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Find (/categories/{slug}) [GET]
+
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": {
+                    "type": "categories",
+                    "attributes": {
+                        "_id": "62a78ee805b991e50ee8cf94",
+                        "name": "Horror",
+                        "slug": "horror",
+                        "description": "Horror books",
+                        "created_at": "2022-06-13T19:24:24.891Z",
+                        "updated_at": "2022-06-29T18:28:43.582Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/categories"
+                }
+            }
+            
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Create (/categories) [POST]
+
+| Param | Description | Type |
+|---|---|---|
+| `name(Optional)` | Name of category. | String |
+| `slug(Optional)` | Slug of category. | String |
+| `description(Optional)` | Description of category. | String |
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
+    + Body
+
+            {
+                "name": "Horror",
+                "slug": "horror",
+                "description": "Horror books"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+           {
+                "data": {
+                    "type": "categories",
+                    "attributes": {
+                        "_id": "62a78ee805b991e50ee8cf94",
+                        "name": "Horror",
+                        "slug": "horror",
+                        "description": "Horror books",
+                        "created_at": "2022-06-13T19:24:24.891Z",
+                        "updated_at": "2022-06-29T18:28:43.582Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/categories"
+                }
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 400,
+              "error": "Bad Request",
+              "message": "Invalid request payload input"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
+            
+### Delete (/categories/{slug}) [DELETE]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer [access_token]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "data": {
+                    "type": "categories",
+                    "attributes": {
+                        "_id": "62a78ee805b991e50ee8cf94",
+                        "name": "Horror",
+                        "slug": "horror",
+                        "description": "Horror books",
+                        "created_at": "2022-06-13T19:24:24.891Z",
+                        "updated_at": "2022-06-29T18:28:43.582Z"
+                    }
+                },
+                "links": {
+                    "self": "http://localhost:3000/categories"
+                }
+            }
+
++ Response 404 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "Not Found"
+            }
+            
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "statusCode": 500,
+              "error": "Internal Server Error",
+              "message": "An internal server error occurred"
+            }
