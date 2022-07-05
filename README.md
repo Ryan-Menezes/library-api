@@ -11,6 +11,7 @@ After that make sure that [MongoDB](https://www.mongodb.com/) is installed on yo
 ```sh
 mongod
 ```
+Rename the .env.example file to .env<br><br>
 Finally, start the node.js server with the command "npm start" in a separate terminal:
 ```sh
 cd "project directory"
