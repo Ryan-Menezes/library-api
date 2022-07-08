@@ -52,4 +52,18 @@ module.exports = [
             cors: true,
         },
     },
+
+    // -------------------------------------------
+    // ROUTES - Books
+    // -------------------------------------------
+
+    {
+        method: 'GET',
+        path: `${endpoint}/{slug}/books`,
+        handler: categoriesHandler.booksAll,
+        options: {
+            auth: false,
+            cors: true,
+        },
+    },
 ];

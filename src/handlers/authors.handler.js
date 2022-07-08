@@ -9,6 +9,7 @@ const {
 } = require('../repositories/index');
 
 const type = authorsRepository.type;
+const typeBook = booksRepository.type;
 
 module.exports = {
     index: async (req, h) => {
@@ -144,6 +145,33 @@ module.exports = {
 
             // Response data
             return h.response(responseUtil.parse(req, type, author)).code(200);
+        } catch (error) {
+            errorUtil.parse(error);
+        }
+    },
+
+    // -------------------------------------------
+    // Relationships - Books
+    // -------------------------------------------
+
+    booksAll: async (req, h) => {
+        try {
+            const { slug } = req.params;
+            const { page = 1, limit = 10, ...filter } = req.query;
+            
+            const author = await authorsRepository.findOne({ slug });
+
+            if (!author) {
+                throw new Error('Not Found');
+            }
+            
+            filter.authors = author._id;
+            const books = await booksRepository.get(filter, (page - 1) * limit, limit);
+
+            // Set poster url
+            books.map(book => book.poster = urlUtil.setUrlUploads(book.poster));
+
+            return h.response(responseUtil.parse(req, typeBook, books)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }

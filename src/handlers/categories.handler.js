@@ -1,12 +1,14 @@
 const responseUtil = require('../utils/response.util');
 const errorUtil = require('../utils/error.util');
 const strUtil = require('../utils/str.util');
+const urlUtil = require('../utils/url.util');
 const {
     books: booksRepository,
     categories: categoriesRepository,
 } = require('../repositories/index');
 
 const type = categoriesRepository.type;
+const typeBook = booksRepository.type;
 
 module.exports = {
     index: async (req, h) => {
@@ -94,6 +96,33 @@ module.exports = {
 
             // Response data
             return h.response(responseUtil.parse(req, type, category)).code(200);
+        } catch (error) {
+            errorUtil.parse(error);
+        }
+    },
+
+    // -------------------------------------------
+    // Relationships - Books
+    // -------------------------------------------
+
+    booksAll: async (req, h) => {
+        try {
+            const { slug } = req.params;
+            const { page = 1, limit = 10, ...filter } = req.query;
+            
+            const category = await categoriesRepository.findOne({ slug });
+
+            if (!category) {
+                throw new Error('Not Found');
+            }
+            
+            filter.categories = category._id;
+            const books = await booksRepository.get(filter, (page - 1) * limit, limit);
+
+            // Set poster url
+            books.map(book => book.poster = urlUtil.setUrlUploads(book.poster));
+
+            return h.response(responseUtil.parse(req, typeBook, books)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }

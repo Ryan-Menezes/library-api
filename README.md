@@ -96,7 +96,7 @@ The `list` actions allow sending the following parameters:
               "error": "Bad Request",
               "message": "Invalid request payload input"
             }
-            
+
 + Response 500 (application/json)
 
     + Body
@@ -184,7 +184,17 @@ The `list` actions allow sending the following parameters:
                   "last": "http://localhost:3000/users?limit=10&page=1"
               }
           }
- 
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 500 (application/json)
 
     + Body
@@ -224,7 +234,17 @@ The `list` actions allow sending the following parameters:
                     "self": "http://localhost:3000/users"
                 }
             }
-            
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 404 (application/json)
 
     + Body
@@ -302,7 +322,17 @@ The `list` actions allow sending the following parameters:
               "error": "Bad Request",
               "message": "Invalid request payload input"
             }
-            
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 500 (application/json)
 
     + Body
@@ -370,7 +400,17 @@ The `list` actions allow sending the following parameters:
               "error": "Bad Request",
               "message": "Invalid request payload input"
             }
-            
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 404 (application/json)
 
     + Body
@@ -419,6 +459,16 @@ The `list` actions allow sending the following parameters:
                 "links": {
                     "self": "http://localhost:3000/users"
                 }
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
             }
 
 + Response 404 (application/json)
@@ -606,7 +656,17 @@ The `list` actions allow sending the following parameters:
               "error": "Bad Request",
               "message": "Invalid request payload input"
             }
-            
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 500 (application/json)
 
     + Body
@@ -672,7 +732,17 @@ The `list` actions allow sending the following parameters:
               "error": "Bad Request",
               "message": "Invalid request payload input"
             }
-            
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 404 (application/json)
 
     + Body
@@ -722,6 +792,16 @@ The `list` actions allow sending the following parameters:
                 "links": {
                     "self": "http://localhost:3000/authors"
                 }
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
             }
 
 + Response 404 (application/json)
@@ -904,7 +984,17 @@ The `list` actions allow sending the following parameters:
               "error": "Bad Request",
               "message": "Invalid request payload input"
             }
-            
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 500 (application/json)
 
     + Body
@@ -956,6 +1046,16 @@ The `list` actions allow sending the following parameters:
                 "links": {
                     "self": "http://localhost:3000/categories"
                 }
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
             }
 
 + Response 404 (application/json)
@@ -1015,6 +1115,16 @@ The `list` actions allow sending the following parameters:
                 "links": {
                     "self": "http://localhost:3000/categories"
                 }
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
             }
 
 + Response 404 (application/json)
@@ -1236,7 +1346,17 @@ The `list` actions allow sending the following parameters:
               "error": "Bad Request",
               "message": "Invalid request payload input"
             }
-            
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 500 (application/json)
 
     + Body
@@ -1308,6 +1428,16 @@ The `list` actions allow sending the following parameters:
                 }
             }
 
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
+            }
+
 + Response 404 (application/json)
 
     + Body
@@ -1371,6 +1501,16 @@ The `list` actions allow sending the following parameters:
                 "links": {
                     "self": "http://localhost:3000/books"
                 }
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "statusCode": 401,
+                "error": "Unauthorized",
+                "message": "Missing authentication"
             }
 
 + Response 404 (application/json)

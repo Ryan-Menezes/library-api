@@ -10,6 +10,7 @@ module.exports = {
     index: async (req, h) => {
         try {
             const { page = 1, limit = 10, ...filter } = req.query;
+
             const users = await usersRepository.get(filter, (page - 1) * limit, limit);
 
             // Set avatar url

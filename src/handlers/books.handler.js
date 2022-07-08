@@ -274,9 +274,12 @@ module.exports = {
                 throw new Error('Not Found');
             }
 
-            const result = await booksRepository.addCategory(book._id, category._id);
+            // Set poster url
+            book.poster = urlUtil.setUrlUploads(book.poster);
 
-            return h.response(responseUtil.parse(req, type, result)).code(200);
+            await booksRepository.addCategory(book._id, category._id);
+
+            return h.response(responseUtil.parse(req, type, book)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }
@@ -296,9 +299,12 @@ module.exports = {
                 throw new Error('Not Found');
             }
 
-            const result = await booksRepository.removeCategory(book._id, category._id);
+            // Set poster url
+            book.poster = urlUtil.setUrlUploads(book.poster);
 
-            return h.response(responseUtil.parse(req, typeCategory, result)).code(200);
+            await booksRepository.removeCategory(book._id, category._id);
+
+            return h.response(responseUtil.parse(req, typeCategory, book)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }
@@ -322,6 +328,9 @@ module.exports = {
             filter._id = { $in: book.authors };
             const authors = await authorsRepository.get(filter, (page - 1) * limit, limit);
 
+            // Set avatar url
+            authors.map(author => author.avatar = urlUtil.setUrlUploads(author.avatar));
+
             return h.response(responseUtil.parse(req, typeAuthor, authors)).code(200);
         } catch (error) {
             errorUtil.parse(error);
@@ -342,9 +351,12 @@ module.exports = {
                 throw new Error('Not Found');
             }
 
-            const result = await booksRepository.addAuthor(book._id, author._id);
+            // Set poster url
+            book.poster = urlUtil.setUrlUploads(book.poster);
 
-            return h.response(responseUtil.parse(req, type, result)).code(200);
+            await booksRepository.addAuthor(book._id, author._id);
+
+            return h.response(responseUtil.parse(req, type, book)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }
@@ -364,9 +376,12 @@ module.exports = {
                 throw new Error('Not Found');
             }
 
-            const result = await booksRepository.removeAuthor(book._id, author._id);
+            // Set poster url
+            book.poster = urlUtil.setUrlUploads(book.poster);
 
-            return h.response(responseUtil.parse(req, typeAuthor, result)).code(200);
+            await booksRepository.removeAuthor(book._id, author._id);
+
+            return h.response(responseUtil.parse(req, typeAuthor, book)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }

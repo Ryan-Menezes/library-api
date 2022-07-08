@@ -1,9 +1,10 @@
 const { category: CategoryModel } = require('../models/index');
+const mongodbUtil = require('../utils/mongodb.util');
 
 module.exports = {
     type: 'categories',
 
-    get: (filter = {}, skip = 0, limit = 10) => CategoryModel.find(filter, { __v: false }).skip(skip).limit(limit).lean(),
+    get: (filter = {}, skip = 0, limit = 10) => CategoryModel.find(mongodbUtil.parseFilter(filter), { __v: false }).skip(skip).limit(limit).lean(),
 
     findOne: (filter = {}) => CategoryModel.findOne(filter, { __v: false }).lean(),
 

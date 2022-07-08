@@ -1,9 +1,10 @@
 const { book: BookModel } = require('../models/index');
+const mongodbUtil = require('../utils/mongodb.util');
 
 module.exports = {
     type: 'books',
 
-    get: (filter = {}, skip = 0, limit = 10) => BookModel.find(filter, { images: false, categories: false, authors: false, __v: false }).skip(skip).limit(limit).lean(),
+    get: (filter = {}, skip = 0, limit = 10) => BookModel.find(mongodbUtil.parseFilter(filter), { images: false, categories: false, authors: false, __v: false }).skip(skip).limit(limit).lean(),
 
     findOne: (filter = {}) => BookModel.findOne(filter, { images: false, categories: false, authors: false, __v: false }).lean(),
 

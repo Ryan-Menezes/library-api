@@ -1,10 +1,11 @@
 const { user: UserModel } = require('../models/index');
 const hashUtil = require('../utils/hash.util');
+const mongodbUtil = require('../utils/mongodb.util');
 
 module.exports = {
     type: 'users',
 
-    get: (filter = {}, skip = 0, limit = 10) => UserModel.find(filter, { password: false, __v: false }).skip(skip).limit(limit).lean(),
+    get: (filter = {}, skip = 0, limit = 10) => UserModel.find(mongodbUtil.parseFilter(filter), { password: false, __v: false }).skip(skip).limit(limit).lean(),
 
     findOne: (filter = {}) => UserModel.findOne(filter, { password: false, __v: false }).lean(),
 
