@@ -11,7 +11,7 @@ module.exports = {
             const { token, user } = await authUtil.login(username, password);
             cacheRepository.set(`${authConfig.session.prefixLogin}:${user._id}`, JSON.stringify(user), authConfig.session.expiration);
 
-            return h.response({ token }).code(200);
+            return h.response({ userId: user._id, token }).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }
@@ -28,7 +28,7 @@ module.exports = {
                 ]);
             }
 
-            return h.response().code(200);
+            return h.response({ token }).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }

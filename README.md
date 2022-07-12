@@ -84,6 +84,7 @@ The `list` actions allow sending the following parameters:
     + Body
 
             {
+                "userId": "62bc914eeca68e3e66e8649a",
                 "token": "access_token"
             }
             
@@ -116,6 +117,10 @@ The `list` actions allow sending the following parameters:
             Authorization: Bearer [access_token]
 
 + Response 200 (application/json)
+
+            {
+                "token": "access_token"
+            }
             
 + Response 500 (application/json)
 
