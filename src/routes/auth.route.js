@@ -12,7 +12,7 @@ module.exports = [
             cors: true,
             auth: false,
             validate: {
-                payload: authSchema.payload
+                payload: authSchema.payload,
             },
         },
     },

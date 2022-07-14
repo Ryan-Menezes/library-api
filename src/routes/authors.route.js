@@ -29,12 +29,12 @@ module.exports = [
         options: {
             cors: true,
             validate: {
-                payload: authorsSchema.payload
+                payload: authorsSchema.payload,
             },
             payload: {
                 parse: true,
                 multipart: {
-                    output: 'stream'
+                    output: 'stream',
                 },
                 maxBytes: 1000 * 1000 * 200, // 200 Mb
             },
@@ -47,12 +47,12 @@ module.exports = [
         options: {
             cors: true,
             validate: {
-                payload: authorsSchema.payload
+                payload: authorsSchema.payload,
             },
             payload: {
                 parse: true,
                 multipart: {
-                    output: 'stream'
+                    output: 'stream',
                 },
                 maxBytes: 1000 * 1000 * 200, // 200 Mb
             },

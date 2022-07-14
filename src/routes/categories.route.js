@@ -29,7 +29,7 @@ module.exports = [
         options: {
             cors: true,
             validate: {
-                payload: categoriesSchema.payload
+                payload: categoriesSchema.payload,
             },
         },
     },
@@ -40,7 +40,7 @@ module.exports = [
         options: {
             cors: true,
             validate: {
-                payload: categoriesSchema.payload
+                payload: categoriesSchema.payload,
             },
         },
     },
