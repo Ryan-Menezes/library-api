@@ -355,7 +355,7 @@ The `list` actions allow sending the following parameters:
 | `first_name` | Firts name of user. | String |
 | `last_name` | Last name of user. | String |
 | `username` | Username of user. | String |
-| `password` | Password of user. | String |
+| `password(Optional)` | Password of user. | String |
 | `avatar(Optional)` | Avatar of user. | File(Image) |
 
 + Request (application/json)
