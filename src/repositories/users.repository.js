@@ -16,8 +16,10 @@ module.exports = {
     findUsernameAuth: (username) => UserModel.findOne({ username }, { __v: false }).lean(),
 
     create: async function(data) {
-        if(data.password){
+        if (data.password) {
             data.password = await hashUtil.generate(data.password);
+        } else {
+            delete data.password;
         }
 
         const user = new UserModel(data);
@@ -27,8 +29,10 @@ module.exports = {
     },
 
     update: async function(data, filter) {
-        if(data.password){
+        if (data.password) {
             data.password = await hashUtil.generate(data.password);
+        } else {
+            delete data.password;
         }
 
         await UserModel.updateOne(filter, data);
