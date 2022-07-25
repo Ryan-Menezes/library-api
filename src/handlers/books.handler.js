@@ -243,7 +243,7 @@ module.exports = {
     categoriesAll: async (req, h) => {
         try {
             const { slug } = req.params;
-            const { page = 1, limit = 10, ...filter } = req.query;
+            const { ...filter } = req.query;
             
             const book = await booksRepository.findOneAll({ slug });
 
@@ -252,9 +252,9 @@ module.exports = {
             }
             
             filter._id = { $in: book.categories };
-            const categories = await categoriesRepository.get(filter, (page - 1) * limit, limit);
+            const categories = await categoriesRepository.getAll(filter);
 
-            return h.response(responseUtil.parse(req, typeCategory, categories)).code(200);
+            return h.response(responseUtil.parse(req, typeCategory, categories, false)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }
@@ -317,7 +317,7 @@ module.exports = {
     authorsAll: async (req, h) => {
         try {
             const { slug } = req.params;
-            const { page = 1, limit = 10, ...filter } = req.query;
+            const { ...filter } = req.query;
             
             const book = await booksRepository.findOneAll({ slug });
 
@@ -326,12 +326,12 @@ module.exports = {
             }
             
             filter._id = { $in: book.authors };
-            const authors = await authorsRepository.get(filter, (page - 1) * limit, limit);
+            const authors = await authorsRepository.getAll(filter);
 
             // Set avatar url
             authors.map(author => author.avatar = urlUtil.setUrlUploads(author.avatar));
 
-            return h.response(responseUtil.parse(req, typeAuthor, authors)).code(200);
+            return h.response(responseUtil.parse(req, typeAuthor, authors, false)).code(200);
         } catch (error) {
             errorUtil.parse(error);
         }

@@ -6,6 +6,8 @@ module.exports = {
 
     get: (filter = {}, skip = 0, limit = 10) => CategoryModel.find(mongodbUtil.parseFilter(filter), { __v: false }).skip(skip).limit(limit).lean(),
 
+    getAll: (filter = {}) => CategoryModel.find(mongodbUtil.parseFilter(filter), { __v: false }).lean(),
+
     findOne: (filter = {}) => CategoryModel.findOne(filter, { __v: false }).lean(),
 
     findById: function(id) {

@@ -6,6 +6,8 @@ module.exports = {
 
     get: (filter = {}, skip = 0, limit = 10) => AuthorModel.find(mongodbUtil.parseFilter(filter), { __v: false }).skip(skip).limit(limit).lean(),
 
+    getAll: (filter = {}) => AuthorModel.find(mongodbUtil.parseFilter(filter), { __v: false }).lean(),
+
     findOne: (filter = {}) => AuthorModel.findOne(filter, { __v: false }).lean(),
 
     findById: function(id) {
