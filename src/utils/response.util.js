@@ -5,7 +5,7 @@ module.exports = {
         const url = urlUtil.get();
 
         const query = req.query
-        const page = query.page || 1;
+        const page = Number(query.page || 1);
         query.limit = query.limit || 10;
 
         query.page = page + 1;

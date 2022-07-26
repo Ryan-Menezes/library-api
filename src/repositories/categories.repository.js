@@ -4,9 +4,9 @@ const mongodbUtil = require('../utils/mongodb.util');
 module.exports = {
     type: 'categories',
 
-    get: (filter = {}, skip = 0, limit = 10) => CategoryModel.find(mongodbUtil.parseFilter(filter), { __v: false }).skip(skip).limit(limit).lean(),
+    get: (filter = {}, skip = 0, limit = 10) => CategoryModel.find(mongodbUtil.parseFilter(filter), { __v: false }).sort({ created_at: -1 }).skip(skip).limit(limit).lean(),
 
-    getAll: (filter = {}) => CategoryModel.find(mongodbUtil.parseFilter(filter), { __v: false }).lean(),
+    getAll: (filter = {}) => CategoryModel.find(mongodbUtil.parseFilter(filter), { __v: false }).sort({ created_at: -1 }).lean(),
 
     findOne: (filter = {}) => CategoryModel.findOne(filter, { __v: false }).lean(),
 

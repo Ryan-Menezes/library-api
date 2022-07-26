@@ -4,9 +4,9 @@ const mongodbUtil = require('../utils/mongodb.util');
 module.exports = {
     type: 'authors',
 
-    get: (filter = {}, skip = 0, limit = 10) => AuthorModel.find(mongodbUtil.parseFilter(filter), { __v: false }).skip(skip).limit(limit).lean(),
+    get: (filter = {}, skip = 0, limit = 10) => AuthorModel.find(mongodbUtil.parseFilter(filter), { __v: false }).sort({ created_at: -1 }).skip(skip).limit(limit).lean(),
 
-    getAll: (filter = {}) => AuthorModel.find(mongodbUtil.parseFilter(filter), { __v: false }).lean(),
+    getAll: (filter = {}) => AuthorModel.find(mongodbUtil.parseFilter(filter), { __v: false }).sort({ created_at: -1 }).lean(),
 
     findOne: (filter = {}) => AuthorModel.findOne(filter, { __v: false }).lean(),
 
