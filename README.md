@@ -1165,6 +1165,8 @@ The `list` actions allow sending the following parameters:
 | `visible(Optional)` | Visible of book. | Boolean |
 | `volume(Optional)` | Volume of book. | Integer |
 | `edition(Optional)` | Edition of book. | Integer |
+| `pages(Optional)` | Pages of book. | Integer |
+| `language(Optional)` | Language of book. | String |
 | `release_date(Optional)` | Release date of book. | Date |
 | `description(Optional)` | Description of book. | String |
 | `details(Optional)` | Details of book. | String |
@@ -1181,6 +1183,8 @@ The `list` actions allow sending the following parameters:
                 "visible": true,
 				"volume": 1,
 				"edition": 1,
+                "pages": 100,
+                "language": "English",
 				"release_date": "2000-01-01T00:00:00.000Z",
 				"description": "O pequeno príncipe",
 				"details": "O pequeno príncipe"
@@ -1201,6 +1205,8 @@ The `list` actions allow sending the following parameters:
                             "visible": true,
                             "volume": 1,
                             "edition": 1,
+                            "pages": 100,
+                            "language": "English",
                             "release_date": "2000-01-01T00:00:00.000Z",
                             "description": "O pequeno príncipe",
 				            "details": "O pequeno príncipe",
@@ -1248,6 +1254,8 @@ The `list` actions allow sending the following parameters:
                         "visible": true,
                         "volume": 1,
                         "edition": 1,
+                        "pages": 100,
+                        "language": "English",
                         "release_date": "2000-01-01T00:00:00.000Z",
                         "description": "O pequeno príncipe",
                         "details": "O pequeno príncipe",
@@ -1290,6 +1298,8 @@ The `list` actions allow sending the following parameters:
 | `visible(Optional)` | Visible of book. | Boolean |
 | `volume` | Volume of book. | Integer |
 | `edition` | Edition of book. | Integer |
+| `pages` | Pages of book. | Integer |
+| `language(Optional)` | Language of book. | String |
 | `release_date` | Release date of book. | Date |
 | `description(Optional)` | Description of book. | String |
 | `details(Optional)` | Details of book. | String |
@@ -1309,6 +1319,8 @@ The `list` actions allow sending the following parameters:
 				"visible": true,
 				"volume": 1,
 				"edition": 1,
+                "pages": 100,
+                "language": "English",
 				"release_date": "2000-01-01T00:00:00.000Z",
 				"description": "O pequeno príncipe",
 				"details": "O pequeno príncipe",
@@ -1329,6 +1341,8 @@ The `list` actions allow sending the following parameters:
                         "visible": true,
                         "volume": 1,
                         "edition": 1,
+                        "pages": 100,
+                        "language": "English",
                         "release_date": "2000-01-01T00:00:00.000Z",
                         "description": "O pequeno príncipe",
                         "details": "O pequeno príncipe",
@@ -1381,6 +1395,8 @@ The `list` actions allow sending the following parameters:
 | `visible(Optional)` | Visible of book. | Boolean |
 | `volume` | Volume of book. | Integer |
 | `edition` | Edition of book. | Integer |
+| `pages` | Pages of book. | Integer |
+| `language(Optional)` | Language of book. | String |
 | `release_date` | Release date of book. | Date |
 | `description(Optional)` | Description of book. | String |
 | `details(Optional)` | Details of book. | String |
@@ -1400,6 +1416,8 @@ The `list` actions allow sending the following parameters:
 				"visible": true,
 				"volume": 1,
 				"edition": 1,
+                "pages": 100,
+                "language": "English",
 				"release_date": "2000-01-01T00:00:00.000Z",
 				"description": "O pequeno príncipe",
 				"details": "O pequeno príncipe",
@@ -1420,6 +1438,8 @@ The `list` actions allow sending the following parameters:
                         "visible": true,
                         "volume": 1,
                         "edition": 1,
+                        "pages": 100,
+                        "language": "English",
                         "release_date": "2000-01-01T00:00:00.000Z",
                         "description": "O pequeno príncipe",
                         "details": "O pequeno príncipe",
@@ -1495,6 +1515,8 @@ The `list` actions allow sending the following parameters:
                         "visible": true,
                         "volume": 1,
                         "edition": 1,
+                        "pages": 100,
+                        "language": "English",
                         "release_date": "2000-01-01T00:00:00.000Z",
                         "description": "O pequeno príncipe",
                         "details": "O pequeno príncipe",

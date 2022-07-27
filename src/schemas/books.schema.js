@@ -7,6 +7,8 @@ module.exports = {
         visible: Joi.boolean().default(false),
         volume: Joi.number().required(),
         edition: Joi.number().required(),
+        pages: Joi.number().required(),
+        language: Joi.string().allow(''),
         release_date: Joi.date().required(),
         description: Joi.string().allow(''),
         details: Joi.string().allow(''),

@@ -53,6 +53,10 @@ module.exports = {
         try {
             const data = req.payload;
 
+            if (!data.language) {
+                delete data.language;
+            }
+
             // Slugify
             data.slug = !data.slug ? strUtil.slugify(data.title) : strUtil.slugify(data.slug);
             
@@ -90,6 +94,10 @@ module.exports = {
             const book_old = await booksRepository.findOne({ slug });
             if (!book_old) {
                 throw new Error('Not Found');
+            }
+
+            if (!data.language) {
+                delete data.language;
             }
 
             // Slugify

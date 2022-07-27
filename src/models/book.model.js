@@ -24,6 +24,14 @@ const BookSchema = new Schema({
         type: Number,
         required: true,
     },
+    pages: {
+        type: Number,
+        required: true,
+    },
+    language: {
+        type: String,
+        default: 'English',
+    },
     release_date: {
         type: Date,
         required: true,

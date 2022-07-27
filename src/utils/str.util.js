@@ -7,6 +7,7 @@ module.exports = {
             .toLowerCase()
             .trim()
             .replace(/[^a-z0-9 ]/g, separator)
-            .replace(/\s+/g, separator);
+            .replace(/\s+/g, separator)
+            .replace(/-{2,}/g, separator);
     },
 };
