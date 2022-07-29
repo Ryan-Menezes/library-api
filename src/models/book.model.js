@@ -16,6 +16,10 @@ const BookSchema = new Schema({
         type: Boolean,
         default: true,
     },
+    isbn: {
+        type: String,
+        required: true,
+    },
     volume: {
         type: Number,
         required: true,

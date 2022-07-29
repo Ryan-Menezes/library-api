@@ -5,6 +5,7 @@ module.exports = {
         title: Joi.string().required(),
         slug: Joi.string().allow(''),
         visible: Joi.boolean().default(false),
+        isbn: Joi.string().required(),
         volume: Joi.number().required(),
         edition: Joi.number().required(),
         pages: Joi.number().required(),

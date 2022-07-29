@@ -1163,6 +1163,7 @@ The `list` actions allow sending the following parameters:
 | `title(Optional)` | Title of book. | String |
 | `slug(Optional)` | Slug of book. | String |
 | `visible(Optional)` | Visible of book. | Boolean |
+| `isbn(Optional)` | ISBN of book. | String |
 | `volume(Optional)` | Volume of book. | Integer |
 | `edition(Optional)` | Edition of book. | Integer |
 | `pages(Optional)` | Pages of book. | Integer |
@@ -1181,6 +1182,7 @@ The `list` actions allow sending the following parameters:
                 "title": "O pequeno príncipe",
 				"slug": "o-pequeno-principe",
                 "visible": true,
+                "isbn": "978-3-16-148410-0",
 				"volume": 1,
 				"edition": 1,
                 "pages": 100,
@@ -1203,6 +1205,7 @@ The `list` actions allow sending the following parameters:
                             "title": "O pequeno príncipe",
                             "slug": "o-pequeno-principe",
                             "visible": true,
+                            "isbn": "978-3-16-148410-0",
                             "volume": 1,
                             "edition": 1,
                             "pages": 100,
@@ -1252,6 +1255,7 @@ The `list` actions allow sending the following parameters:
                         "title": "O pequeno príncipe",
                         "slug": "o-pequeno-principe",
                         "visible": true,
+                        "isbn": "978-3-16-148410-0",
                         "volume": 1,
                         "edition": 1,
                         "pages": 100,
@@ -1296,6 +1300,7 @@ The `list` actions allow sending the following parameters:
 | `title` | Title of book. | String |
 | `slug(Optional)` | Slug of book. | String |
 | `visible(Optional)` | Visible of book. | Boolean |
+| `isbn` | ISBN of book. | String |
 | `volume` | Volume of book. | Integer |
 | `edition` | Edition of book. | Integer |
 | `pages` | Pages of book. | Integer |
@@ -1317,6 +1322,7 @@ The `list` actions allow sending the following parameters:
                 "title": "O pequeno príncipe",
 				"slug": "o-pequeno-principe",
 				"visible": true,
+                "isbn": "978-3-16-148410-0",
 				"volume": 1,
 				"edition": 1,
                 "pages": 100,
@@ -1339,6 +1345,7 @@ The `list` actions allow sending the following parameters:
                         "title": "O pequeno príncipe",
                         "slug": "o-pequeno-principe",
                         "visible": true,
+                        "isbn": "978-3-16-148410-0",
                         "volume": 1,
                         "edition": 1,
                         "pages": 100,
@@ -1393,6 +1400,7 @@ The `list` actions allow sending the following parameters:
 | `title` | Title of book. | String |
 | `slug(Optional)` | Slug of book. | String |
 | `visible(Optional)` | Visible of book. | Boolean |
+| `isbn` | ISBN of book. | String |
 | `volume` | Volume of book. | Integer |
 | `edition` | Edition of book. | Integer |
 | `pages` | Pages of book. | Integer |
@@ -1414,6 +1422,7 @@ The `list` actions allow sending the following parameters:
                 "title": "O pequeno príncipe",
 				"slug": "o-pequeno-principe",
 				"visible": true,
+                "isbn": "978-3-16-148410-0",
 				"volume": 1,
 				"edition": 1,
                 "pages": 100,
@@ -1436,6 +1445,7 @@ The `list` actions allow sending the following parameters:
                         "title": "O pequeno príncipe",
                         "slug": "o-pequeno-principe",
                         "visible": true,
+                        "isbn": "978-3-16-148410-0",
                         "volume": 1,
                         "edition": 1,
                         "pages": 100,
@@ -1513,6 +1523,7 @@ The `list` actions allow sending the following parameters:
                         "title": "O pequeno príncipe",
                         "slug": "o-pequeno-principe",
                         "visible": true,
+                        "isbn": "978-3-16-148410-0",
                         "volume": 1,
                         "edition": 1,
                         "pages": 100,
